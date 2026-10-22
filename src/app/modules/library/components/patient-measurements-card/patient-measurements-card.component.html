@@ -1,0 +1,22 @@
+<div *ngIf="toShow.length>0 else nodata" class="d-flex flex-column flex-wrap flex-gap-1">
+  <div *ngFor="let meas of toShow"
+    class="d-flex col-12 flex-row flex-justify-start flex-gap-5 mb-2">
+    <label class="col-4">{{ meas.cvType.uniqueLabelKey| translate }}</label>
+    <label class="col-5 light" *ngIf="!meas.components else comp">{{meas.value | number: '1.0-1' }}
+      {{meas.unit?(meas.unit.uniqueLabelKey| translate):''}}</label>
+    <ng-template #comp>
+      <div class="d-flex flex-row flex-justify-start flex-gap-1 col-5">
+        <label class="light" *ngFor="let comp of meas.components">{{ comp.cvType.uniqueLabelKey|
+          translate }} {{comp.value | number: '1.0-1' }} {{comp.unit?(comp.unit.uniqueLabelKey|
+          translate):''}}</label>
+      </div>
+    </ng-template>
+    <label class="col-3 date right">({{meas.assertedWhen | dfnsFormatDistanceToNow: {addSuffix:true}
+      }})</label>
+  </div>
+</div>
+<ng-template #nodata>
+  <div class="d-flex flex-column flex-justify-center flex-gap-1">
+    <label class="light">{{ 'patient.measurements.noData' | translate }}</label>
+  </div>
+</ng-template>

@@ -1,0 +1,209 @@
+<div class="d-flex flex-column m-3 flex-gap-2" *ngIf="patient; else nopatient">
+  <heart-patient-expandible [patient]="patient" [lang]="lang"></heart-patient-expandible>
+  <mat-tab-group class="fit-page">
+    <mat-tab label="Full">
+      <div class="d-flex flex-column m-3 flex-gap-2">
+        <h1> One step Creation</h1>
+        <label>By selecting a level, demo data will be created for the user, including physical
+          activity, initial questionnaire,
+          initial risk assessment and a full encounter, based on preset demo profiles.</label>
+        <mat-card>
+          <mat-card-header class="p-3">
+            <mat-card-title>HEPA - Complete Profile</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="d-flex flex-row flex-justify-between">
+              <label>Create Basic info, initial risk prediction and encounter</label>
+              <button mat-fab extended color="primary"
+                (click)="createAll('mod', 'hepa')">Moderate</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-header class="p-3">
+            <mat-card-title>YFS - Complete Profile</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="d-flex flex-row flex-justify-between">
+              <label>Create Basic info, initial risk prediction and encounter</label>
+              <button mat-fab extended color="primary"
+                (click)="createAll('low', 'yfs')">Low</button>
+              <button mat-fab extended color="primary"
+                (click)="createAll('mod', 'yfs')">Moderate</button>
+              <button mat-fab extended color="primary"
+                (click)="createAll('high', 'yfs')">High</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card>
+          <mat-card-header class="p-3">
+            <mat-card-title>YFS2 - Complete Profile</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="d-flex flex-row flex-justify-between">
+              <label>Create Basic info, initial risk prediction and encounter</label>
+              <button mat-fab extended color="primary"
+                (click)="createAll('low', 'yfs2')">Low</button>
+              <button mat-fab extended color="primary"
+                (click)="createAll('mod', 'yfs2')">Moderate</button>
+              <button mat-fab extended color="primary"
+                (click)="createAll('high', 'yfs2')">High</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="Profiles">
+      <mat-tab-group>
+        <mat-tab label="YFS">
+          <div class="d-flex flex-column m-3 flex-gap-2">
+            <h1> YFS Profile group </h1>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Create Profile</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary"
+                    (click)="createProfile('low', 'yfs')">Low</button>
+                  <button mat-fab extended color="primary"
+                    (click)="createProfile('mod', 'yfs')">Moderate</button>
+                  <button mat-fab extended color="primary"
+                    (click)="createProfile('high', 'yfs')">High</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Compute Initial Risk</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary" (click)="createInitialRisk()">Compute
+                    Initial
+                    Risk</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Encounter</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary"
+                    (click)="createEncounter('low', 'yfs')">Low</button>
+                  <button mat-fab extended color="primary"
+                    (click)="createEncounter('mod', 'yfs')">Moderate</button>
+                  <button mat-fab extended color="primary"
+                    (click)="createEncounter('high', 'yfs')">High</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+        <mat-tab label="YFS2">
+          <div class="d-flex flex-column m-3 flex-gap-2">
+            <h1> YFS2 data group </h1>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Create Profiles</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary"
+                    (click)="createProfile('low', 'yfs2')">Low</button>
+                  <button mat-fab extended color="primary"
+                    (click)="createProfile('mod', 'yfs2')">Moderate</button>
+                  <button mat-fab extended color="primary"
+                    (click)="createProfile('high', 'yfs2')">High</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Compute Initial Risk</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary" (click)="createInitialRisk()">Compute
+                    Initial
+                    Risk</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Encounter</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary"
+                    (click)="createEncounter('low', 'yfs2')">Low</button>
+                  <button mat-fab extended color="primary"
+                    (click)="createEncounter('mod', 'yfs2')">Moderate</button>
+                  <button mat-fab extended color="primary"
+                    (click)="createEncounter('high', 'yfs2')">High</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+        <mat-tab label="HEPA">
+          <div class="d-flex flex-column m-3 flex-gap-2">
+            <h1> HEPA Group </h1>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Create Profile</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary"
+                    (click)="createProfile('mod', 'hepa')">Moderate</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Compute Initial Risk</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary" (click)="createInitialRisk()">Compute
+                    Initial
+                    Risk</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card>
+              <mat-card-header class="p-3">
+                <mat-card-title>Encounter</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="d-flex flex-row flex-justify-between">
+                  <button mat-fab extended color="primary"
+                    (click)="createEncounter('mod', 'hepa')">Moderate</button>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
+
+
+</div>
+
+<ng-template #savingContent>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>
+
+
+<ng-template #nopatient>
+  <div class="d-flex flex-column m-3 flex-gap-2">
+    <heart-message-box class="p-2" [type]="'warning'"
+      [msg]="'No patient in session. Bo gack to the families list'"
+      [icon]="'error'"></heart-message-box>
+  </div>
+</ng-template>

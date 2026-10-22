@@ -1,0 +1,80 @@
+@use "variable";
+@use "colours";
+
+@use "@angular/material" as mat;
+
+html,
+body {
+  height: 100%;
+  background-color: variable.$body-bg;
+}
+
+body {
+  margin: 0;
+  overflow: auto;
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: variable.$text-color;
+}
+
+a.selected {
+  font-weight: bold;
+}
+
+a:hover,
+a:focus,
+a {
+  text-decoration: none;
+  color: variable.$text-color;
+}
+
+a.link {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: variable.$primary;
+  }
+}
+
+.card {
+  flex-basis: 250px;
+  flex-grow: 10;
+  border-radius: 10px;
+  @include mat.elevation(3);
+  background-color: #{variable.$card-bg};
+}
+
+.snack {
+  --mdc-snackbar-container-color: #{variable.$light};
+  --mat-mdc-snack-bar-button-color: #{variable.$primary};
+  --mdc-snackbar-supporting-text-color: #{variable.$dark};
+}
+
+.snack-success {
+  --mdc-snackbar-container-color: #{variable.$primary};
+  --mat-mdc-snack-bar-button-color: #{variable.$light};
+  --mdc-snackbar-supporting-text-color: #{variable.$light};
+}
+
+.snack-error {
+  --mdc-snackbar-container-color: #{variable.$warn};
+  --mat-mdc-snack-bar-button-color: #{variable.$light};
+  --mdc-snackbar-supporting-text-color: #{variable.$light};
+}
+
+.details {
+  font-weight: 200;
+  font-style: italic;
+  color: #{variable.$dark};
+}
+
+button {
+  font-weight: 600 !important;
+}
+
+heart-message-box {
+  --light-background: #{mat.get-color-from-palette(colours.$md-light, 200)};
+  --primary-color: #{mat.get-color-from-palette(colours.$md-primary, 900)};
+  --accent-color: #{variable.$accent};
+  --warning-color: #{variable.$warn};
+}

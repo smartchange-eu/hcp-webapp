@@ -1,0 +1,60 @@
+/*Material Theme Colors*/
+
+// CUSTOM STYLES
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+@use "colours";
+@use "sass:map";
+// @include mat.all-component-typographies();
+@include mat.core();
+$heart-ui-angular-template-primary: mat.define-palette(colours.$md-primary);
+$heart-ui-angular-template-secondary: mat.define-palette(colours.$md-secondary);
+$heart-ui-angular-template-accent: mat.define-palette(colours.$md-accent);
+// The warn palette is optional (defaults to red).
+$heart-ui-angular-template-warn: mat.define-palette(colours.$md-warning);
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$heart-ui-angular-template-theme: mat.define-light-theme((color: (primary: $heart-ui-angular-template-primary,
+        secondary: $heart-ui-angular-template-secondary,
+        accent: $heart-ui-angular-template-accent,
+        warn: $heart-ui-angular-template-warn,
+      ),
+    ));
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+// @include mat.all-component-themes($heart-ui-angular-template-theme);
+$primary: mat.get-color-from-palette(colours.$md-primary, 500);
+$secondary: mat.get-color-from-palette(colours.$md-secondary, 500);
+$accent: mat.get-color-from-palette(colours.$md-accent, 500);
+$warn: mat.get-color-from-palette(colours.$md-warning, 500);
+$light: mat.get-color-from-palette(colours.$md-light, 100);
+$dark: mat.get-color-from-palette(colours.$md-dark, 500);
+$body-bg: mat.get-color-from-palette(colours.$md-light, 500);
+$text-color: mat.get-color-from-palette(colours.$md-primary, 900);
+$card-bg: mat.get-color-from-palette(colours.$md-light, 100);
+// Defining all red for testing purposes.
+$custom-background: (
+  // status-bar: $card-bg,
+  app-bar: $card-bg,
+  background: $body-bg,
+  card: $card-bg,
+  dialog: $card-bg,
+);
+// Typography - OPTIONAL [check the CDN import in index.html]
+$alt-font: mat.define-typography-config($font-family: "Titillium Web, sans-serif;",
+  );
+$heart-alt-theme: mat.define-light-theme((color: (primary: $heart-ui-angular-template-primary,
+        secondary: $heart-ui-angular-template-secondary,
+        accent: $heart-ui-angular-template-accent,
+        warn: $heart-ui-angular-template-warn,
+      ),
+      typography: $alt-font,
+    ));
+$color-map: map.get($heart-alt-theme, 'color');
+$modified-color-map: map.merge($color-map, ('background': $custom-background));
+$heart-alt-theme: map.merge($heart-alt-theme, ('color': $modified-color-map));
+
+@include mat.all-component-themes($heart-alt-theme);
+@include mat.typography-hierarchy($alt-font);

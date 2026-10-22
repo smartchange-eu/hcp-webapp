@@ -1,0 +1,23 @@
+<mat-card class="height-full">
+  <mat-card-header class="p-3">
+    <mat-card-title>{{ 'risk.initial.label' | translate }}</mat-card-title>
+    <mat-card-subtitle>{{ ('risk.initial.explanation' | translate)}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="p-3 d-flex flex-column height-full">
+    <div *ngFor="let prediction of risk.predictions" class="prediction-row  flex-grow">
+      <div>
+        <div class="risk-content">
+          <ngx-charts-gauge [results]="getGaugeData(prediction).results" [animations]="false"
+            [customColors]="getGaugeData(prediction).customColors" [showAxis]="false"
+            [showText]="false" [tooltipDisabled]="true">
+          </ngx-charts-gauge>
+          <div class="risk-percentage">
+            <h1>{{ 'risk.initial.level.'+prediction.level | translate }}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    <small>{{ ('cdss.computed-on.label' | translate) + (risk.date | dfnsFormat:
+      'Pp')}}</small>
+  </mat-card-content>
+</mat-card>

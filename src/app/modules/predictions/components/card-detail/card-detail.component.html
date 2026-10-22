@@ -1,0 +1,11 @@
+<div *ngIf="card" class="d-flex flex-column flex-gap-1">
+  <div class="col-12 d-flex flex-column flex-gap-1">
+    <div class="col-12">
+      <heart-prediction-card-info [lang]="lang!" [card]="card"></heart-prediction-card-info>
+    </div>
+    <div *ngFor="let s of card?.suggestions; let i = index" class="col-12 p-2">
+      <heart-suggestion-detail [suggestion]="s" [card]="card" [lang]="lang!"
+        [visualExplainerUrl]="visualExplainerUrl"></heart-suggestion-detail>
+    </div>
+  </div>
+</div>

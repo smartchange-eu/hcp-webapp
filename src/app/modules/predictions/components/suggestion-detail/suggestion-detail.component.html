@@ -1,0 +1,26 @@
+<div class="d-flex flex-column flex-gap-2" *ngIf="!loading">
+  <div class="clearfix card p-2">
+    <div class="col-12">
+      <h1>
+        {{ 'suggestion-detail.risk.title' | translate }}
+      </h1>
+      <!-- Specialty e livello -->
+      <div class="d-flex flex-column flex-justify-center flex-lg-row flex-gap-1">
+        <ng-container *ngFor="let risk of risks">
+          <heart-risk-big-card class="col-12 col-lg-6" [risk]="risk" [showDate]="true"
+            [showActions]="false"></heart-risk-big-card>
+        </ng-container>
+      </div>
+    </div>
+    <div class="mt-2 d-flex flex-row-reverse flex-gap-2">
+      <button mat-stroked-button color="accent" (click)="refuseCard()"
+        *ngIf="!toDisableRefuseButton()">{{'suggestion.card.refuse.button.label' |
+        translate}}</button>
+      <button mat-raised-button *ngIf="!toDisableDoneButton()" color="primary"
+        (click)="acceptSuggestion()">{{'suggestion.card.confirmation.button.label' |
+        translate}}</button>
+    </div>
+  </div>
+  <heart-explanation [suggestion]="suggestion" [lang]="lang!" [card]="card"
+    [visualExplainerUrl]="visualExplainerUrl"></heart-explanation>
+</div>

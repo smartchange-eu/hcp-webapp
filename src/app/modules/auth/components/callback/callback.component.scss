@@ -1,0 +1,32 @@
+.logo-wait>*>img {
+  max-width: 200px;
+  // margin-left: 16px;
+}
+
+@keyframes wave {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.logo-wait {
+  margin: 20px;
+  animation: wave 4s infinite;
+}
+
+.wait-container {
+  margin: 20px;
+  height: 100%;
+}
+
+.waiting-message {
+  margin: 20px;
+}

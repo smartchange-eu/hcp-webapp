@@ -1,0 +1,13 @@
+<div class="d-flex flex-column height-full">
+  <div *ngFor="let category of getCategories()" class="d-flex flex-column">
+    <span class="category-title">{{category ?? 'other' | translate}}</span>
+    <div *ngFor="let attr of getItems(category)" class="d-flex flex-items-center">
+      <div class="col-4">{{attr.code | translate}} <span
+          *ngIf="attr.template.unit">[{{attr.template.unit | translate}}]</span></div>
+      <heart-colored-gauge class="col-8" [value]="attr.value" [min]="attr.template.min"
+        [max]="attr.template.max" [colorBreakpoints]="getBreakpoints(attr)"
+        [showValues]="attr.template.unit != undefined">
+      </heart-colored-gauge>
+    </div>
+  </div>
+</div>

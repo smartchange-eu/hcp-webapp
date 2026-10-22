@@ -1,0 +1,42 @@
+<div class="clearfix card p-2 m-2">
+  <div class="d-flex flex-column flex-gap-2 col-12">
+    <div
+      class="d-flex flex-row flex-justify-start flex-content-center flex-items-center pl-1 flex-gap-2">
+      <div class="d-flex flex-row pl-2">
+        <mat-chip-set>
+          <ng-container [ngSwitch]="card.status">
+            <mat-chip *ngSwitchCase="'new'" class="status-new"><mat-icon
+                matChipAvatar>auto_awesome</mat-icon>{{card.status | translate}}</mat-chip>
+            <mat-chip *ngSwitchCase="'hidden'" class="status-hidden"><mat-icon
+                matChipAvatar>visibility_off</mat-icon>{{card.status | translate}}</mat-chip>
+            <mat-chip *ngSwitchCase="'accepting'" class="status-accepting"><mat-icon
+                matChipAvatar>done</mat-icon>{{card.status | translate}}</mat-chip>
+            <mat-chip *ngSwitchCase="'accepted'" class="status-accepted"><mat-icon
+                matChipAvatar>check_circle</mat-icon>{{card.status | translate}}</mat-chip>
+            <mat-chip *ngSwitchCase="'overridden'" class="status-overridden"><mat-icon
+                matChipAvatar>cancel</mat-icon>{{card.status | translate}}</mat-chip>
+            <mat-chip *ngSwitchCase="'read'" class="status-read"><mat-icon
+                matChipAvatar>beenhere</mat-icon>{{card.status | translate}}</mat-chip>
+            <mat-chip *ngSwitchCase="'stale'" class="status-stale"><mat-icon
+                matChipAvatar>disabled_by_default</mat-icon>{{card.status | translate}}</mat-chip>
+          </ng-container>
+        </mat-chip-set> <!-- Specialty e livello -->
+      </div>
+      <h1 *ngIf="card.label">{{card.label | translate}}</h1>
+    </div>
+    <!-- Specialty e livello -->
+    <div
+      class="d-flex flex-row flex-justify-start flex-content-center flex-items-center pl-1 flex-gap-2">
+      <span *ngIf="card.summary" [innerHTML]="card.summary | translate"></span>
+    </div>
+    <div *ngIf="card.createdOn" class="pl-1 py-2">
+      <span>{{('cdss.computed-on.label' | translate) + ' ' + (card.createdOn| dfnsFormat:
+        'PPpp')}}</span>
+    </div>
+  </div>
+  <mat-divider class="mt-1"></mat-divider>
+  <!-- Source (link) -->
+  <div *ngIf="card.source" class="pl-1 py-2">
+    <a href="{{card.source.url}}" target="_blank">{{card.source.label}}</a>
+  </div>
+</div>

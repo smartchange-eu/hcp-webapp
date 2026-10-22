@@ -1,0 +1,15 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<mat-drawer-container *ngIf="!loading" class="form-container fit-page" autosize>
+  <mat-drawer #drawer [mode]="'over'" (opened)="opened" [position]="'end'" class="form-sidenav" mode="side">
+    <div class="d-flex flex-column fit-page">
+      <heart-appointment-form [patients]="patientsList" [appointmentTypes]="appoitmentTypes" [defaultLength]="2" [lang]="lang" (save)="onSave($event)"></heart-appointment-form>
+    </div>
+  </mat-drawer>
+  <div class="appointment-container p-3">
+    <heart-appointments-browser [appointments]="appointments" (deleteAppointment)="onDeleteAppointment($event)" (confirmAppointment)="onConfirmAppointment($event)" (openAppointment)="onOpenAppointment($event)" [typeSystem]="'http://smartchange.eu/encounter-type'">
+    </heart-appointments-browser>
+    <button *ngIf="!opened" mat-fab class="fab-main" (click)="drawer.toggle()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</mat-drawer-container>

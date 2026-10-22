@@ -1,0 +1,15 @@
+<div *ngIf="measures else nodata" class="d-flex flex-column flex-wrap flex-gap-1">
+  <div *ngFor="let meas of measures.items"
+    class="d-flex col-12 flex-row flex-justify-start flex-gap-5 mb-2">
+    <label class="col-4">{{ meas.product.uniqueLabelKey| translate }}</label>
+    <label class="col-5 light">{{meas.quantity | number: '1.0-1' }}
+      {{meas.unit?('patient.nutrition.'+meas.unit.code| translate):''}}</label>
+    <label class="col-3 date right">({{measures.date | dfnsFormatDistanceToNow: {addSuffix:true}
+      }})</label>
+  </div>
+</div>
+<ng-template #nodata>
+  <div class="d-flex flex-column flex-justify-center flex-gap-1">
+    <label class="light">{{ 'patient.measurements.noData' | translate }}</label>
+  </div>
+</ng-template>

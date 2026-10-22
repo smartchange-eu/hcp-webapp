@@ -1,0 +1,25 @@
+<div class="d-flex flex-column full-width mr-2">
+  <div class="gauge-value-bar">
+    <!-- Labels -->
+    <div class="gauge-value" [style.left.%]="indicatorPosition">
+      {{showValues? value:''}}
+    </div>
+  </div>
+  <div class="gauge-container">
+    <!-- Gauge bar -->
+    <div class="gauge-bar">
+      <div class="gauge-segment" *ngFor="let segment of segments" [style.width.%]="segment.widthPct"
+        [style.backgroundColor]="segment.color"></div>
+    </div>
+
+    <!-- Indicator -->
+    <div class="gauge-indicator" [style.left.%]="indicatorPosition"></div>
+    <div class="gauge-label-bar">
+      <!-- Labels -->
+      <div *ngFor="let s of segments | slice: 0:(segments.length - 1)" class="gauge-label"
+        [style.width.%]="s.widthPct">
+        {{showValues? s.value:''}}
+      </div>
+    </div>
+  </div>
+</div>

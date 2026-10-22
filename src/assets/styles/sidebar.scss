@@ -1,0 +1,45 @@
+@use "variable";
+
+.mat-list-subheader {
+  background: variable.$body-bg;
+
+  span {
+    padding: 0 0 0 16px !important;
+    font-size: 14px;
+    font-weight: bold;
+    height: 32px;
+    line-height: 16px;
+    margin: 0;
+    display: flex;
+    color: rgba(0, 0, 0, 0.54);
+    box-sizing: border-box;
+    padding: 16px;
+    align-items: center;
+  }
+}
+
+.mat-list-internallink {
+  padding-left: 24px;
+}
+
+.mat-list-subheader {
+  background: variable.$body-bg;
+
+  span {
+    padding: 0 0 0 16px !important;
+    font-size: 14px;
+    font-weight: bold;
+    height: 32px;
+    line-height: 16px;
+    margin: 0;
+    display: flex;
+    color: rgba(0, 0, 0, 0.54);
+    box-sizing: border-box;
+    padding: 16px;
+    align-items: center;
+  }
+}
+
+.mat-list-internallink {
+  padding-left: 24px;
+}

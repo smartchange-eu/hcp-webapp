@@ -1,0 +1,27 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div *ngIf="!loading" class="d-flex flex-column flex-gap-2 flex-basis-100 p-3">
+
+  <div class="closed-episode" *ngIf="!isActiveEncounter">
+    <heart-message-box [type]="'warning'" [msg]="'patient-dashboard.encounters.read-only'" [icon]="'lock'"></heart-message-box>
+  </div>
+
+  <div *ngIf="!isActiveEncounter && !patientHistory">
+    <!-- NO DATA MESSAGE -->
+    <heart-message-box [type]="'info'" [msg]="'hcp.episode.lifestyle.no-data'"></heart-message-box>
+  </div>
+
+  <div class="d-flex flex-row flex-gap-3" *ngIf="patientHistoryQuestionnaire && patientHistory">
+    <!-- FAMILY HISTORY -->
+    <div class="d-flex flex-column flex-gap-2 flex-basis-100" *ngIf="!loading">
+      <heart-questionnaire-section [questionnaireResponse]="patientHistory" [showHeader]="false" [firstLevelGroupFormat]="'none'" [lang]="lang" (onSave)="save($event, patientHistory)" (onModeChange)="modeChange($event)" questionLastChar="" [editMode]="patientHistoryEditMode" [smallQuestionColumn]="true" [readOnly]="!isActiveEncounter">
+      </heart-questionnaire-section>
+    </div>
+  </div>
+
+  <div *ngIf="!patientHistoryQuestionnaire">
+    <!-- NO DATA MESSAGE -->
+    <heart-message-box [type]="'warning'" [msg]="'hcp.episode.lifestyle.not-found'"></heart-message-box>
+  </div>
+  <mat-divider></mat-divider>
+
+</div>

@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-card-header class="p-3">
+    <mat-card-title> {{"plan.mini-card.title"| translate }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div *ngIf="plan else noPlan">
+      <h3> {{ 'plan-dashboard.focus' | translate }}: {{ focus | translate }} </h3>
+      <p>{{ 'plan-dashboard.due.label' | translate }} {{plan.due | dfnsFormat: 'P'}}</p>
+    </div>
+  </mat-card-content>
+  <mat-card-actions *ngIf="buttonText" class="d-flex flex-row-reverse">
+    <button mat-fab extended (click)="buttonClicked()" color="primary">
+      <mat-icon *ngIf="buttonIcon">{{buttonIcon}}</mat-icon>
+      {{buttonText | translate}}
+    </button>
+  </mat-card-actions>
+</mat-card>
+<ng-template #noPlan>
+  <div>
+    <label>{{ 'plan.mini-card.no-plan' | translate }}</label>
+  </div>
+</ng-template>

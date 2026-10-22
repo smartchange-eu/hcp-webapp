@@ -1,0 +1,34 @@
+<div class="flex-1 d-flex flex-column m-3 flex-gap-2">
+
+  <div class="closed-episode" *ngIf="!isActiveEpisode">
+    <heart-message-box [type]="'warning'" [msg]="'patient-dashboard.encounters.read-only'"
+      [icon]="'lock'"></heart-message-box>
+  </div>
+  <ng-container *ngIf="!saving else savingContent">
+    <heart-generic-quantitative-form [readOnly]="!isActiveEpisode" [editMode]="measEditMode"
+      [enableActionButtons]="true" [structure]="form" [lang]="lang"
+      [alreadyCollected]="alreadyCollected" [showNotes]="notes" [mandTimestamp]="date"
+      (measures)="saveMeasures($event)"></heart-generic-quantitative-form>
+    <mat-expansion-panel [expanded]="false" class="m-2">
+      <mat-expansion-panel-header>
+        {{'episode.physical-examination.history.label'| translate}}
+      </mat-expansion-panel-header>
+      <ng-template matExpansionPanelContent>
+        <div class="d-flex flex-column flex-gap-4">
+          <ng-container *ngFor="let key of keys; let last = last;">
+            <heart-quantitative-linechart [colorScheme]="colorScheme" [timeline]="false"
+              [items]="measMap.get(key)!" [showLegend]="true" [lang]="lang" [title]="key"
+              [birthDate]="patient?.birthDate" [monthPercentiles]="getPercentiles(key)"
+              [showYAxisLabel]="true" [dateFormat]="dateFormat" [unitAsYAxis]="true"
+              [percentilesTimespan]="centilesSpan"></heart-quantitative-linechart>
+            <mat-divider *ngIf="!last"></mat-divider>
+          </ng-container>
+        </div>
+      </ng-template>
+    </mat-expansion-panel>
+  </ng-container>
+</div>
+
+<ng-template #savingContent>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>

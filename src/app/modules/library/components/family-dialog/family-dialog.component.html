@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{"patient.anagraphic-form.button.new-member.label" | translate}}</h2>
+<mat-dialog-content class="d-flex flex-column p-4">
+  <heart-family-members [(familyMember)]="familyMember" [rolesValues]="relationships" [lang]="lang"
+    [genderValues]="genderValues" [appearance]="'outline'" [reqEmail]="true" [mandEmail]="false"
+    [reqName]="true" [mandName]="true" [reqBirthDate]="true" [reqSurname]="true"
+    [canDelete]="false"></heart-family-members>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>{{("answer.cancel.label" | translate)|
+    uppercase}}</button>
+  <button mat-raised-button color="primary"
+    [disabled]="!(familyMember.relationship && familyMember.name)" [mat-dialog-close]="true"
+    (click)="onSave()">{{("answer.save.label" |
+    translate) | uppercase}}</button>
+</mat-dialog-actions>

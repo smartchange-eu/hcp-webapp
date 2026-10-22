@@ -1,0 +1,152 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div class="d-flex flex-column flex-gap-2 m-3">
+  <mat-card *ngIf="!loading" class="col-12">
+    <mat-card-header class="p-3">
+      <mat-card-title color="accent"> {{"counselling-request-table.title"| translate
+        }}</mat-card-title>
+    </mat-card-header>
+    <!-- Filter Dropdowns -->
+    <div class="d-flex flex-row flex-gap-3 pl-3">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'risk.initial.label' | translate }}</mat-label>
+        <mat-select [multiple]="true" [(value)]="selectedPriority"
+          (selectionChange)="applyFilters()">
+          <mat-option value="routine">{{ 'risk.initial.level.low' | translate |
+            uppercase}}</mat-option>
+          <mat-option value="urgent">{{ 'risk.initial.level.moderate' | translate |
+            uppercase}}</mat-option>
+          <mat-option value="asap">{{ 'risk.initial.level.high' | translate| uppercase
+            }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'counselling-request-table.status.label' | translate }}</mat-label>
+        <mat-select [multiple]="true" [(value)]="selectedStatus" (selectionChange)="applyFilters()">
+          <mat-option [value]="planStatus.ACTIVE">{{ 'counselling.status.active.label' | translate |
+            uppercase
+            }}</mat-option>
+          <mat-option [value]="planStatus.COMPLETED">{{ 'counselling.status.completed.label' |
+            translate | uppercase }}</mat-option>
+          <mat-option [value]="planStatus.REVOKED">{{ 'counselling.status.revoked.label' |
+            translate | uppercase}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="d-flex p-3">
+      <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows
+        (matSortChange)="sortData($event)" class="mat-elevation-z8">
+        <ng-container matColumnDef="patient">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{
+            'counselling-request-table.name.label' |
+            translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{element.subject.getFullName()}} </td>
+        </ng-container>
+        <!-- Status Column-->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> {{ 'counselling-request-table.status.label' |
+            translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{getStatusLabel(element) | translate}}
+          </td>
+        </ng-container>
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{
+            'counselling-request-table.date.label' |
+            translate }} </th>
+          <td mat-cell *matCellDef="let element"> {{element.dateTime | dfnsFormat: 'P'}} </td>
+        </ng-container>
+        <!-- Priority Column -->
+        <ng-container matColumnDef="priority">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> {{
+            'risk.initial.label' |
+            translate }} </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon [ngClass]="getPriorityIcon(element)"
+              [matTooltip]="getPriorityLabel(element) | translate">label_important</mat-icon>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="expand">
+          <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button aria-label="expand row"
+              (click)="(doSelectSR(element)); $event.stopPropagation()">
+              <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+              <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+            <div class="example-element-detail"
+              [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+              <div *ngIf="expandedElement" class="d-flex flex-column width-full p-3 flex-gap-2">
+                <mat-card>
+                  <mat-card-header>
+                    <h2>{{expandedElement.subject?.getFullName()}}</h2>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <heart-patient-family-card class="p-3" [showOrg]="true"
+                      [selectedPatient]="expandedElement.subject"
+                      [selectedFamily]="selectedFamily"></heart-patient-family-card>
+                  </mat-card-content>
+                </mat-card>
+                <div *ngIf="expandedElement!.status !== 5 && expandedElement!.status !== 4"
+                  class="d-flex flex-row flex-justify-end flex-gap-3">
+                  <button mat-raised-button color="primary" (click)="doClose(expandedElement!)">
+                    {{'counselling-request-table.close.label' | translate}}
+                  </button>
+                  <button mat-raised-button color="warn" (click)="doRevoke(expandedElement!)">
+                    {{'counselling-request-table.revoke.label' | translate}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+          class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+          (click)="doSelectSR(element)">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+        </tr>
+      </table>
+
+    </div>
+
+
+  </mat-card>
+  <!-- <div *ngIf="!loading && selected && selectedPatient" class="col-12 m-3">
+    <mat-card>
+      <mat-card-header>
+        <div class="d-flex flex-row flex-justify-start">
+          <mat-icon class="big-icon" [inline]="true">face</mat-icon>
+          <div><mat-card-title>{{selectedPatient.firstName}}
+              {{selectedPatient.lastName}}</mat-card-title>
+            <mat-card-subtitle>{{selectedPatient.gender.toString() | translate}}</mat-card-subtitle>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-card-content>
+        <heart-patient-family-card [selectedPatient]="selectedPatient"
+          [selectedFamily]="selectedFamily"></heart-patient-family-card>
+      </mat-card-content>
+      <mat-card-actions *ngIf="selected.status === 2">
+        <div class="d-flex flex-row flex-justify-start flex-gap-3">
+          <button mat-raised-button *ngIf="!selectedPatientCareteamActive" color="primary"
+            (click)="enableCareTeam()">{{'enable.care-team.label' | translate}}</button>
+          <button mat-raised-button *ngIf="selectedPatientCareteamActive"
+            (click)="disableCareTeam()">{{'disable.care-team.label' | translate}}</button>
+          <button mat-raised-button color="primary" (click)="doClose(selected)">
+            {{'counselling-request-table.close.label' | translate}}
+          </button>
+          <button mat-raised-button color="warn" (click)="doRevoke(selected)">
+            {{'counselling-request-table.revoke.label' | translate}}
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card> -->
+</div>

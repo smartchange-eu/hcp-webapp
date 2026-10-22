@@ -1,0 +1,27 @@
+<div class="episode-container" *ngIf="!encounter || loading">
+  <mat-progress-bar mode="query" color="accent"></mat-progress-bar>
+  <div class="d-flex flex-row flex-justify-center flex-gap-1">
+    <h2>{{'episode.loading-data.label' | translate}}</h2>
+  </div>
+</div>
+<mat-drawer-container *ngIf="encounter && !loading" class="example-container  fit-page" autosize>
+  <mat-drawer #drawer [mode]="'over'" [position]="'end'" class="notes-sidenav" mode="side">
+    <div class="d-flex flex-column fit-page">
+      <mat-form-field class="message-input m-2 flex-1">
+        <mat-label>{{'episode.notes.input.label'| translate}}</mat-label>
+        <textarea matInput [(ngModel)]="notesText"></textarea>
+      </mat-form-field>
+      <div class="d-flex m-2 flex-row-reverse">
+        <button mat-raised-button color="primary" (click)="saveNotes()">
+          {{'episode.button.notes.label' | translate}}
+        </button>
+      </div>
+    </div>
+  </mat-drawer>
+  <div class="episode-container">
+    <app-stepper [steps]="steps" (finished)="onFinished($event)" (isLast)="isLast($event)"></app-stepper>
+    <button *ngIf="isActiveEncounter && showNotes" mat-fab class="fab-main" (click)="drawer.toggle()">
+      <mat-icon>edit_note</mat-icon>
+    </button>
+  </div>
+</mat-drawer-container>

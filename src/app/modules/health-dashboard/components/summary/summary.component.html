@@ -1,0 +1,85 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div *ngIf="!loading && patient" class="d-flex flex-lg-row flex-column flex-gap-3 p-3">
+  <!-- LEFT ROW -->
+  <div class="col-lg-6 col-12 d-flex flex-column flex-gap-3">
+    <div class="col-12">
+      <mat-card>
+        <mat-card-header>
+          <div class="d-flex flex-row flex-justify-start">
+            <mat-icon class="big-icon" [inline]="true">face</mat-icon>
+            <!-- <mat-icon class="big-icon" [inline]="true">{{selectedPatient.gender.toString() == 'male' ? 'man' : 'woman'}}</mat-icon> -->
+            <div><mat-card-title>{{patient.firstName}} {{patient.lastName}}</mat-card-title>
+              <mat-card-subtitle>{{patient.gender.toString() | translate}}</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="mb-2 mt-2" *ngIf="trialGroup">
+            <div class="d-flex flex-row flex-justify-start flex-gap-5 mb-2">
+              <label class="medium">{{ 'user.trial-group.label' | translate }}</label>
+              <label>{{trialGroup.uniqueLabelKey| translate}}</label>
+            </div>
+            <mat-divider></mat-divider>
+          </div>
+          <heart-patient-family-card [selectedPatient]="patient" [showOrg]="true"
+            [selectedFamily]="family"></heart-patient-family-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <!-- CURRENT ENCOUNTER -->
+    <mat-card *ngIf="hasEncounterInProgress()" class="col-12 blue">
+      <mat-card-header class="p-3">
+        <mat-card-title class="black-title">{{"summary.current-encounter.title"| translate
+          }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="d-flex flex-row-reverse">
+          <button mat-fab extended color="accent" (click)="encounterSelected()">
+            <mat-icon>edit</mat-icon>
+            {{ 'summary.current-encounter.button.resume' | translate }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="col-12" *ngIf="oldEncounters.length>0">
+      <mat-card-header class="p-3">
+        <mat-card-title>{{"summary.old-encounters.title"| translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="d-flex flex-column flex-justify-between">
+          <heart-encounter-table [encounters]="oldEncounters"
+            [displayedColumns]="['status', 'type', 'closingDate']" [pageSize]="5" [lang]="lang"
+            (selected)="encounterSelected($event)" [enableRefreshButton]="false"
+            [typeSystem]="'http://smartchange.eu/encounter-type'">
+          </heart-encounter-table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <!-- RIGHT ROW -->
+  <div class="col-12 col-lg-6 d-flex flex-column flex-gap-3">
+
+    <div class="col-12 clickable" [routerLink]="'../history'">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>{{"summary.measures.title"| translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <heart-patient-measurements-card [measures]="measures"
+            [codes]="historyCodes"></heart-patient-measurements-card>
+          <small><i>{{ 'summary.measures.info' | translate }}</i></small>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <!-- RISK ROW -->
+    <div *ngIf="showRisk" class="col-12 d-flex flex-wrap flex-gap-1">
+      <heart-initial-risk-card *ngIf="initialRisk" [risk]="initialRisk"
+        class="col-6-gap-1 clickable flex-grow" [routerLink]="'../risk'"></heart-initial-risk-card>
+      <heart-risk-small-card *ngFor="let overallRisk of risks" [risk]="overallRisk"
+        class="col-6-gap-1 clickable flex-grow" [routerLink]="'../risk'"></heart-risk-small-card>
+    </div>
+    <div *ngIf="!control" class="col-12 clickable" [routerLink]="'../goals'">
+      <heart-plan-mini-card [plan]="plan"></heart-plan-mini-card>
+    </div>
+  </div>
+</div>

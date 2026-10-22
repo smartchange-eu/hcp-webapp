@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Select a Goal</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'goal-selection.dialog.title' | translate }}</mat-label>
+    <mat-select [(value)]="selectedGoal">
+      <mat-option *ngFor="let goal of allGoals" [value]="goal">
+        {{ getVariableName(goal) | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="selectGoal()">OK</button>
+</div>

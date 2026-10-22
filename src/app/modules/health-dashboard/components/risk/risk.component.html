@@ -1,0 +1,27 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+
+<div class="d-flex flex-column flex-gap-3 width-full p-3">
+  <mat-card>
+    <mat-card-header class="p-3">
+      <mat-card-title> {{"risk-page.title.risk"| translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <span>{{"risk-page.content.risk" | translate}}</span>
+    </mat-card-content>
+    <mat-card-actions class="d-flex flex-row-reverse flex-gap-1">
+      <button mat-fab extended [routerLink]="'../predictions'" color="primary">
+        {{ ('menu.suggestion.tooltip' | translate) | uppercase }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <heart-initial-risk-card class="width-full" *ngIf="initialRisk"
+    [risk]="initialRisk"></heart-initial-risk-card>
+  <div class="d-flex flex-row width-full flex-wrap flex-gap-3 items-justify-beetween">
+    <heart-risk-big-card *ngFor="let r of risks" [showActions]="true"
+      (mitigation)="openCard($event)" class="col-6-gap-3" [risk]="r"></heart-risk-big-card>
+  </div>
+  <div *ngIf="!control" class="col-12">
+    <heart-plan-mini-card [plan]="plan" [buttonText]="'plan-definition.update.plan.title'"
+      [buttonIcon]="'edit'" (clicked)="goToGoals()"></heart-plan-mini-card>
+  </div>
+</div>

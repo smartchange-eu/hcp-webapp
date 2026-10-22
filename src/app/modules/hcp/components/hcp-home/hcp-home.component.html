@@ -1,0 +1,44 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div class="flex flex-column">
+  <div class="d-flex flex-column flex-lg-row flex-items-center flex-md-items-center m-3">
+    <mat-card class="col-12 col-lg-6 mb-3 mb-lg-0 mr-md-3">
+      <mat-card-header class="p-3">
+        <mat-card-title> {{"title.add-patient"| translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="d-flex flex-row flex-justify-between">
+          <label>{{"card.add-patient.content" | translate}}</label>
+          <button mat-fab extended color="primary" [routerLink]="'../add-patient'">
+            <mat-icon>person_add</mat-icon>
+            {{ 'card.add-patient.button' | translate }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- <mat-card class="col-12 col-lg-6">
+      <mat-card-header class="p-3">
+        <mat-card-title> {{"title.request-access"| translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="d-flex flex-row flex-justify-between">
+          <label>{{"card.request-access.content" | translate}}</label>
+          <button mat-fab extended color="primary">
+            <mat-icon>share</mat-icon>
+            {{ 'card.request-access.button' | translate }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card> -->
+  </div>
+  <mat-card *ngIf="!loading" class="m-3">
+    <mat-card-header class="p-3">
+      <mat-card-title color="accent"> {{"title.select-patient"| translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <heart-trial-patient-list [lang]="lang" [patients]="trialList"
+        [displayedColumns]="pat_columns" (selected)="selectedPatient($event)"
+        (askRefresh)="reloadList()" [enableRefreshButton]="true" [expand]="false">
+      </heart-trial-patient-list>
+    </mat-card-content>
+  </mat-card>
+</div>

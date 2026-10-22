@@ -1,0 +1,29 @@
+<mat-card *ngIf="chartData && chartData.length > 0" class="target-chart-card">
+  <mat-card-header>
+    <mat-card-title>
+      {{getDisplayName(goalTarget.code) | translate}}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="d-flex flex-column flex-gap-1">
+      <div class="d-flex flex-justify-between flex-items-center p-4">
+        <div>
+          <span class="label">{{'target.chart.target' | translate}}</span>
+          <span class="value">{{ getTargetDisplayWithUnit() }}</span>
+        </div>
+        <div>
+          <span class="label">{{'target.chart.average' | translate}}</span>
+          <span class="value">{{ getAverageDisplayWithUnit() }}</span>
+        </div>
+      </div>
+      <div class="chart-container">
+        <heart-reference-barchart [results]="chartData" [xAxis]="true" [yAxis]="true"
+          [legend]="false" [legendTitle]="'Metrics'" [showXAxisLabel]="false"
+          [showYAxisLabel]="false" [yAxisLabel]="getUnitDisplay()" [animations]="false"
+          [gradient]="false" [showGridLines]="true" [customColors]="customColors"
+          [showRefLabels]="true" [showRefLines]="true" [referenceLines]="lineChartData"
+          [noBarWhenZero]="false"></heart-reference-barchart>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

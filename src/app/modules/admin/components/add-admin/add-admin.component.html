@@ -1,0 +1,23 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+
+<div class="m-3 d-flex flex-row">
+
+  <div>
+    <h1 class="ml-3">{{ "admin.add.admin.title" | translate }}</h1>
+
+    <div class="card p-4" *ngIf="!loading">
+      <heart-new-hcp-form [lang]="lang" [hideName]="true" [hideSurname]="true" [mandEmail]="true"
+        [hideGender]="true" [pwdValidationPattern]="validationPwd"
+        [pwdValidationText]="validationTxt" [hideAge]="true" [appearance]="'outline'"
+        [showOnlyLangs]="languages" [existanceValidator]="existanceValidator"
+        (storeIt)="storeUser($event)">
+      </heart-new-hcp-form>
+
+      <div class="p-3 details">
+        <span>
+          {{'new-hcp.password.info.details' | translate}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

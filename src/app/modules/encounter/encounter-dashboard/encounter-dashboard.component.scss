@@ -1,0 +1,31 @@
+// mat-toolbar-row > button {
+// font-weight: 400 !important;
+// }
+
+.fixed-bar {
+  position: sticky; // importante per pagine molto lunghe
+  position: -webkit-sticky;
+  /* For macOS/iOS Safari */
+  top: 64px;
+  z-index: 12;
+
+  display: block;
+  padding: 8px 0;
+}
+
+.episode-container {
+  position: relative;
+  // height: 100%;
+  display: block;
+  transform: inherit;
+}
+
+.fab-main {
+  position: fixed;
+  right: 2em;
+  bottom: 2em;
+}
+
+.notes-sidenav {
+  min-width: 300px;
+}

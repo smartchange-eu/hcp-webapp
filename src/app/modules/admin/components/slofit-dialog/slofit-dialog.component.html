@@ -1,0 +1,48 @@
+<div mat-dialog-title>{{"slofit-select.label" | translate}}</div>
+<mat-dialog-content class="d-flex flex-column">
+  <span>{{"slofit-select.info" | translate}}</span>
+  <form [formGroup]="form">
+    <div class="d-flex flex-column flex-items-stretch p-3">
+      <span class="mb-2 title">{{'slofit.parent-details.label' | translate}}</span>
+      <!-- Family dropdown -->
+      <mat-form-field *ngIf="family.length>0" appearance="fill" class="mb-3">
+        <mat-label>{{'slofit.family-member.select.label' | translate}}</mat-label>
+        <mat-select [value]="selectedFamilyIndex" (selectionChange)="onFamilySelect($event.value)">
+          <mat-option *ngFor="let member of family; let i = index" [value]="i">
+            {{member.firstName}} {{member.lastName}} {{member.email? '('+member.email+')': ''}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="flex-1 mr-md-2">
+        <mat-icon matPrefix>email</mat-icon>
+        <mat-label>{{'family-member.email.label' | translate}}</mat-label>
+        <input matInput formControlName="email">
+        <mat-error>{{getErrorMessage('email') | translate}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="flex-1 mr-md-2">
+        <mat-label>{{'family-member.name.label' | translate}}</mat-label>
+        <input matInput formControlName="name">
+        <mat-error>{{getErrorMessage('name') | translate}}</mat-error>
+      </mat-form-field>
+      <span class="mt-2 mb-2 title">{{'slofit.kid-details.label' | translate}}</span>
+      <mat-form-field class="flex-1 mr-md-2">
+        <mat-label>{{'family-member.name.label' | translate}}</mat-label>
+        <input matInput formControlName="kid">
+        <mat-error>{{getErrorMessage('kid') | translate}}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="flex-1 mr-md-2">
+        <input matInput readonly [matDatepicker]="picker" formControlName="birthDay" />
+        <!--mat-hint>{{ dateHint }}</mat-hint-->
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>{{("answer.cancel.label" | translate)|
+    uppercase}}</button>
+  <button mat-raised-button color="primary" [disabled]="!(form.valid)" [mat-dialog-close]="true"
+    (click)="onSave()">{{("answer.save.label" |
+    translate) | uppercase}}</button>
+</mat-dialog-actions>

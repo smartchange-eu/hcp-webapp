@@ -1,0 +1,75 @@
+:host {
+  display: block;
+}
+
+.button-nav-bar-pagination {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+
+    .button-nav-bar-container {
+        display: flex;
+        flex-grow: 1;
+        overflow: hidden;
+        z-index: 1;
+
+        > nav {
+          transition: left ease 250ms;
+          -moz-transition: left ease 250ms;
+          -webkit-transition: left ease 250ms;
+          -o-transition: left 250ms;
+
+          overflow: hidden;
+          position: relative;
+          flex-shrink: 0;
+
+          > div {
+            position: relative;
+          }
+        }
+    }
+
+    .button-bar-pagination {
+      position: relative;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      min-width: 32px;
+      cursor: pointer;
+      z-index: 2;
+
+      display: flex;
+
+      &.button-bar-pagination-before,
+      &.button-bar-pagination-after {
+        padding-left: 4px;
+
+        div.button-bar-pagination-chevron {
+          border-color: rgba(0, 0, 0, 0.87);
+
+          border-style: solid;
+          border-width: 2px 2px 0 0;
+          content: '';
+          height: 8px;
+          width: 8px;
+        }
+      }
+
+      &.button-bar-pagination-before .button-bar-pagination-chevron {
+        transform: rotate(-135deg);
+      }
+
+      &.button-bar-pagination-after .button-bar-pagination-chevron {
+          transform: rotate(45deg);
+      }
+    }
+}
+
+
+
+
+
+.mat-elevation-z4 {
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+}

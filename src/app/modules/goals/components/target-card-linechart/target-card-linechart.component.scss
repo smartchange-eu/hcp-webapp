@@ -1,0 +1,118 @@
+.chart-container {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+
+  .chart-header {
+    margin-bottom: 20px;
+
+    h3 {
+      margin: 0 0 15px 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .target-average-row {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+
+      .target-info,
+      .average-info {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+
+        .label {
+          font-size: 0.9rem;
+          color: #666;
+          font-weight: 500;
+        }
+
+        .value {
+          font-size: 0.9rem;
+          color: #333;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .chart-wrapper {
+    height: 300px;
+
+    // Override ngx-charts styles for better appearance
+    ::ng-deep {
+      .line-chart {
+        .line-series {
+          .line {
+            stroke-width: 2px;
+          }
+
+          .line-dots {
+            .dot {
+              r: 4px;
+              stroke-width: 2px;
+            }
+          }
+        }
+      }
+
+      // Style for reference lines (target lines)
+      .reference-line {
+        stroke: #e0e0e0;
+        stroke-width: 2px;
+        stroke-dasharray: 5, 5;
+        opacity: 0.8;
+      }
+
+      // Grid lines
+      .grid-panel {
+        .tick {
+          line {
+            stroke: #f0f0f0;
+          }
+        }
+      }
+
+      // Axis styling
+      .x-axis,
+      .y-axis {
+        .tick {
+          text {
+            font-size: 12px;
+            fill: #666;
+          }
+        }
+      }
+
+      .axis-label {
+        font-size: 12px;
+        font-weight: 500;
+        fill: #666;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 15px;
+
+    .chart-header {
+      .target-average-row {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+    }
+
+    .chart-wrapper {
+      height: 250px;
+    }
+  }
+}

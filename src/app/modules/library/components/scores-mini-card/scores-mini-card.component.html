@@ -1,0 +1,13 @@
+<div class="d-flex flex-column">
+  <div>{{'scores.mini-card.text'| translate}}</div>
+  <ngx-charts-pie-grid #piechart [results]="chartData" [scheme]="areaSchema" [designatedTotal]="3"
+    [label]="'scores.mini-card.title'|translate">
+    <ng-template #tooltipTemplate let-model="model">
+      <div class="d-flex flex-column">
+        <label>{{ model.name}}</label>
+        <small>{{ model.value | number : "1.0-1" }}/3</small>
+      </div>
+    </ng-template></ngx-charts-pie-grid>
+  <!-- <small *ngIf="suggestion.date && showDate">{{('cdss.computed-on.label' | translate) +
+        (suggestion.date | dfnsFormat: 'Pp')}}</small> -->
+</div>

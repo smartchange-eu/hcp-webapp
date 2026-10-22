@@ -1,0 +1,44 @@
+<div *ngIf="selectedPatient">
+  <div *ngIf="showOrg && selectedPatient.managingOrganization?.name"
+    class="d-flex flex-row flex-justify-start flex-gap-5">
+    <label class="medium">{{ 'patient.anagraphic-form.organization.label' | translate }}:</label>
+    <label>{{selectedPatient.managingOrganization?.name}}</label>
+  </div>
+  <div *ngIf="selectedPatient.age != undefined"
+    class="d-flex flex-row flex-justify-start flex-gap-5">
+    <label class="medium">{{ 'person.age.label' | translate }}</label>
+    <label>{{selectedPatient.age}}</label>
+  </div>
+  <div *ngIf="selectedPatient.email != undefined"
+    class="d-flex flex-row flex-justify-start flex-gap-5">
+    <label class="medium">{{ 'person.contact-primary.label' | translate }}</label>
+    <label>{{selectedPatient.email}}</label>
+  </div>
+  <div *ngIf="selectedFamily && selectedFamily.length >0" class="d-flex flex-column mt-2">
+    <mat-divider class="mb-2"></mat-divider>
+    <h3>Family:</h3>
+    <div class="d-flex flex-column flex-gap-5">
+      <div *ngFor="let l of selectedFamily">
+        <div class="mb-2"> <label *ngIf="l.firstName || l.lastName" class="title"> {{l.firstName}}
+            {{l.lastName}}
+            -
+          </label> <label class="title">{{l.relationship.uniqueLabelKey | translate}}</label>
+          <button *ngIf="canRemoveFM" color="warn" (click)="doDelete(l)" class="icon-button-small"
+            mat-icon-button><mat-icon>delete</mat-icon></button>
+        </div>
+        <div *ngIf="l.gender && l.gender.toString() != 'unknown'"
+          class="d-flex flex-row flex-justify-start flex-gap-5">
+          <label class="light">{{l.gender.toString() | translate}}</label>
+        </div>
+        <div *ngIf="l.birthDate" class="d-flex flex-row flex-justify-start flex-gap-5">
+          <label class="medium">{{ 'person.age.label' | translate }}</label>
+          <label> {{getAge(l.birthDate)}}</label>
+        </div>
+        <div *ngIf="l.email" class="d-flex flex-row flex-justify-start flex-gap-5">
+          <label class="medium">{{ 'person.email.label' | translate }}</label>
+          <label> {{l.email}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

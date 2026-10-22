@@ -1,0 +1,13 @@
+<mat-card class="height-full" *ngIf="!loading">
+  <mat-card-header class="p-3">
+    <mat-card-title>{{"risk-page.title.risk-value"| translate }}</mat-card-title>
+    <mat-card-subtitle *ngIf="prediction && prediction.code"> {{prediction.code.uniqueLabelKey |
+      translate }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="prediction" class="p-3 height-full d-flex flex-column">
+    <heart-risk-level-card [risk]="prediction" class="flex-1"></heart-risk-level-card>
+    <small *ngIf="showDetails && risk">{{ ('risk-small.card.at-age' | translate : {age:
+      prediction.age })+ ' - '+('cdss.computed-on.label' | translate) + (risk.date | dfnsFormat:
+      'Pp')}}</small>
+  </mat-card-content>
+</mat-card>

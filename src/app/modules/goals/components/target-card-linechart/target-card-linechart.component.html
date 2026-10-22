@@ -1,0 +1,29 @@
+<mat-card *ngIf="chartData && chartData.length > 0" class="target-chart-card">
+  <mat-card-header>
+    <mat-card-title>{{ getDisplayName(goalTarget.code) }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="target-average-row">
+      <div class="target-info">
+        <span class="label">{{ 'target.chart.target' | translate }}</span>
+        <span class="value">
+          between {{ goalTarget.targetMin }} and {{ goalTarget.targetMax }}
+          {{ getUnitDisplay() }}
+        </span>
+      </div>
+      <div class="average-info">
+        <span class="label">{{ 'target.chart.average' | translate }}</span>
+        <span class="value">{{ average.toFixed(1) }} {{ getUnitDisplay() | translate }}</span>
+      </div>
+    </div>
+
+    <div class="chart-wrapper">
+      <ngx-charts-line-chart [results]="chartData" [xAxis]="true" [yAxis]="true" [legend]="false"
+        [showXAxisLabel]="false" [showYAxisLabel]="true" [yAxisLabel]="getYAxisLabel()"
+        [yScaleMin]="getMinValue()" [yScaleMax]="getMaxValue()" [autoScale]="false"
+        [timeline]="true" [animations]="false" [curve]="curve" [referenceLines]="referenceLines"
+        [showRefLines]="true" [showRefLabels]="false" [gradient]="false"></ngx-charts-line-chart>
+    </div>
+  </mat-card-content>
+</mat-card>

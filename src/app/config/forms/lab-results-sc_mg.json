@@ -1,0 +1,64 @@
+{
+  "sections": [
+    {
+      "label": {
+        "system": "http://loinc.org",
+        "code": "30954-2"
+      },
+      "valuesToCollect": [
+        {
+          "min": 20,
+          "max": 1000,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "76629-5"
+          },
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "mg/dL",
+            "display": "mg/dL"
+          }
+        },
+        {
+          "min": 40,
+          "max": 1200,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "14647-2"
+          },
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "mg/dL",
+            "display": "mg/dL"
+          }
+        },
+        {
+          "min": 5,
+          "max": 300,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "14646-4"
+          },
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "mg/dL",
+            "display": "mg/dL"
+          }
+        },
+        {
+          "min": 10,
+          "max": 1000,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "22748-8"
+          },
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "mg/dL",
+            "display": "mg/dL"
+          }
+        }
+      ]
+    }
+  ]
+}

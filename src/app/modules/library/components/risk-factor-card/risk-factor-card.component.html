@@ -1,0 +1,25 @@
+<mat-card class="example-card">
+  <mat-card-header *ngIf="label">
+    <mat-card-title>{{label}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="counterfactual-card">
+      <div *ngIf="!riskPlaceholder && showRisk && card.risk"
+        [ngClass]="{'risk-low': card.level  == 'low', 'risk-moderate': card.level  == 'moderate', 'risk-high': card.level  == 'high'}"
+        class="feature-line">
+        <heart-risk-gauge [defaultValue]="card.risk | riskPercent" defaultLabel="Risk"
+          defaultUnits="%" [defaultMin]="0" [defaultMax]="100" [maxDecimals]="maxDecimals"
+          [useArrows]="useArrows"
+          [baseValue]="(base !== undefined && base.risk !== undefined ? (base.risk | riskPercent) : undefined)" [hideTooltip]="true"></heart-risk-gauge>
+      </div>
+      <div *ngIf="riskPlaceholder" class="feature-line risk-empty">
+        <span></span>
+      </div>
+      <div *ngFor="let feat of card.features" class="feature-line">
+        <heart-risk-gauge [feature]="feat" [baseValue]="baseValues.get(feat.key.uniqueLabelKey)"
+          [maxDecimals]="maxDecimals" [useArrows]="useArrows"
+          [color]="colorMap.get(feat.key.uniqueLabelKey)" [hideTooltip]="!showTooltip"></heart-risk-gauge>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

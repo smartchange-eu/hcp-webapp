@@ -1,0 +1,178 @@
+<!-- 
+<span *ngIf="card!.model != undefined">{{card!.model! | json}}</span>
+<mat-divider></mat-divider>
+
+{{suggestion | json}} -->
+<div class="d-flex flex-column flex-gap-2" *ngIf="!loading">
+  <h1>{{ "explanation.title.label" | translate }}</h1>
+
+  <mat-expansion-panel *ngIf="riskattributes.length > 0">
+    <mat-expansion-panel-header class="p-3">
+      <mat-panel-title>
+        {{ "risk-page.title.risk-focus" | translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="d-flex flex-column hight-full">
+      <div class="d-flex flex-justify-end">
+        <button color="primary" class="help-icon" mat-icon-button
+          (click)="openHelpDialog('compliance', 'risk-page.title.risk-focus')">
+          <mat-icon>help_outline</mat-icon>
+        </button>
+      </div>
+      <heart-compliance-card [inputs]="riskattributes" />
+    </div>
+  </mat-expansion-panel>
+  <mat-card>
+    <mat-card-header class="p-3">
+      <mat-card-title-group>
+        <mat-card-title>
+          {{ "risk-page.title.risk-impact" | translate }}</mat-card-title>
+        <button color="primary" class="help-icon" mat-icon-button
+          (click)="openHelpDialog('impact', 'risk-page.title.risk-impact')">
+          <mat-icon>help_outline</mat-icon>
+        </button>
+      </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="d-flex flex-column flex-gap-1" *ngIf="shaps && shaps.length > 0; else noShaps">
+        <mat-tab-group class="flex-1">
+          <mat-tab [label]="'chart.bar.label' | translate">
+            <div class="col-12 float-left">
+              <div class="chart-wrapper">
+                <ngx-charts-bar-horizontal-stacked #barchart [customColors]="customColors"
+                  [results]="negBars" [trimYAxisTicks]="false" [gradient]="gradient"
+                  [showDataLabel]="false" [xAxis]="showXAxis" [yAxis]="showYAxis"
+                  [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
+                  [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel | translate"
+                  [yAxisLabel]="yAxisLabel | translate" [xAxisTickFormatting]="formatXAxis">
+                  <ng-template #tooltipTemplate let-model="model">
+                    <div class="d-flex flex-column">
+                      <label>{{ model.name | translate }}</label>
+                      <small>{{ model.value | number: "1.0-1" }} %</small>
+                    </div>
+                  </ng-template>
+                </ngx-charts-bar-horizontal-stacked>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab [label]="'chart.pie.label' | translate">
+            <div class="col-12 float-left">
+              <div class="chart-wrapper">
+                <ngx-charts-pie-chart #piechart [customColors]="customColors" [results]="shaps"
+                  [trimLabels]="false" [gradient]="gradient" [legend]="showLegend" [labels]="true">
+                  <ng-template #tooltipTemplate let-model="model">
+                    <div class="d-flex flex-column">
+                      <label>{{ model.name | translate }}</label>
+                      <small>{{ model.value | number: "1.0-1" }} %</small>
+                    </div>
+                  </ng-template>
+                </ngx-charts-pie-chart>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+        <div class="col-12 d-flex flex-row flex-gap-4 flex-justify-center">
+          <div class="d-flex flex-row flex-items-center flex-gap-1" *ngFor="let it of legendItems"
+            [title]="it.label | translate">
+            <!-- chip: circle with background color -->
+            <span class="legend-chip" [ngStyle]="{ 'background-color': it.color }"
+              aria-hidden="true"></span>
+            <!-- label -->
+            <span class="legend-label">{{ it.label | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-expansion-panel *ngIf="counterfactualExpl" [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ "explanation.forecast.label" | translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="d-flex flex-column width-full">
+      <div class="d-flex flex-justify-end">
+        <button color="primary" class="help-icon" mat-icon-button
+          (click)="openHelpDialog('forecast', 'explanation.forecast.label')">
+          <mat-icon>help_outline</mat-icon>
+        </button>
+      </div>
+      <!-- <small>{{ "forecast.help.content" | translate }}</small> -->
+      <div class="d-flex flex-column flex-lg-row pt-3">
+        <div
+          class="d-flex flex-column flex-md-row flex-lg-row flex-gap-2 width-full flex-items-end">
+          <heart-risk-factor-card class="col-12 col-lg-6 you" [card]="counterfactualExpl.current"
+            [maxDecimals]="2" [label]="
+              'explanation.now.label'
+                | translate
+                  : { age: (counterfactualExpl.current.age | number: '1.0-0') }
+            " [colorMap]="colorMap" [riskPlaceholder]="true"></heart-risk-factor-card>
+          <heart-risk-factor-card *ngFor="let pCard of counterfactualExpl.forecasting"
+            [maxDecimals]="2" class="col-12 col-lg-6" [showRisk]="true" [useArrows]="true"
+            [base]="counterfactualExpl.current" [card]="pCard" [colorMap]="colorMap" [label]="
+              'explanation.counterfactual.label'
+                | translate: { age: pCard.age | number: '1.0-0' }
+            "></heart-risk-factor-card>
+        </div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="counterfactualExpl" [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ "risk-page.title.counterfactuals" | translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="d-flex flex-column width-full">
+      <div class="d-flex flex-justify-end flex-gap-4">
+        <a href="https://www.youtube.com/watch?v=jVtJdLBwZwU" class="help-icon" mat-icon-button
+          color="primary" target="_blank" rel="noopener">
+          <mat-icon>ondemand_video</mat-icon></a>
+        <button color="primary" class="help-icon" mat-icon-button
+          (click)="openHelpDialog('counterfactual', 'risk-page.title.counterfactuals')">
+          <mat-icon>help_outline</mat-icon>
+        </button>
+      </div>
+      <!-- <small>{{ "counterfactual.help.content" | translate }}</small> -->
+      <div class="d-flex flex-column flex-lg-row pt-3">
+        <mat-tab-group mat-stretch-tabs="false" class="width-full" preserveContent>
+          <mat-tab *ngFor="
+              let item of counterfactualExpl.counterfactuals;
+              let i = index
+            " [label]="
+              'explanation.counterfactual.index' | translate: { index: i + 1 }
+            ">
+            <div
+              class="border-top p-1 d-flex flex-column flex-md-row flex-lg-row flex-gap-2 width-full flex-items-end">
+              <heart-risk-factor-card class="col-6-gap-2 you" [card]="item.overall"
+                [maxDecimals]="2" [useArrows]="true" [label]="
+                  'explanation.counterfactual.label'
+                    | translate: { age: item.overall.age | number: '1.0-0' }
+                " [showRisk]="false" [base]="counterfactualExpl.current" [colorMap]="colorMap"
+                [riskPlaceholder]="true"></heart-risk-factor-card>
+              <heart-risk-factor-card *ngFor="let pCard of item.forecasting; index as i"
+                [maxDecimals]="2" [useArrows]="true" class="col-6-gap-2"
+                [base]="getCurrentByAge(pCard.age)" [card]="pCard" [label]="
+                  'explanation.counterfactual.label'
+                    | translate: { age: pCard.age | number: '1.0-0' }
+                " [colorMap]="colorMap" [showRisk]="true"></heart-risk-factor-card>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+      <div *ngIf="visualExplainerUrl" class="d-flex flex-row-reverse flex-gap-3">
+        <button mat-raised-button (click)="openVE()" color="primary">
+          {{ "explanation.open.ve.label" | translate }}
+        </button>
+        <button *ngIf="isDemo" mat-raised-button (click)="openDemoVE()" color="accent">
+          DEMO VE
+        </button>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</div>
+<ng-template #noShaps>
+  <div class="d-flex flex-column flex-gap-1">
+    <span>{{ "cdss-explanation.no-shaps.label" | translate }}</span>
+  </div>
+</ng-template>

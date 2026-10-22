@@ -1,0 +1,76 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div *ngIf="!loading" class="m-3">
+  <div class="col-12 col-md-8 ">
+    <h1 class="ml-3">{{ "hcp.add-patient.title" | translate }}</h1>
+    <div class="p-4 card">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'add-patient.trial-group.label' | translate }}</mat-label>
+        <mat-select [(value)]="selectedGroup" name="group">
+          <mat-option *ngFor="let g of trialGroups" [value]="g">{{ g.uniqueLabelKey| translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <ng-container *ngIf="demo">
+        <div class="d-flex flex-column m-3 flex-gap-2">
+          <mat-slide-toggle class="pl-4" [(ngModel)]="isDemoUser">Demo
+            User</mat-slide-toggle>
+          <mat-form-field *ngIf="isDemoUser" appearance="fill">
+            <mat-label>Demo Profile data</mat-label>
+            <mat-select [(value)]="demoGroup" name="demolevel">
+              <mat-option [value]="'yfs'">YFS</mat-option>
+              <mat-option [value]="'yfs2'">YFS2</mat-option>
+              <mat-option [value]="'hepa'">HEPA</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="isDemoUser" appearance="fill">
+            <mat-label>Demo Profile level</mat-label>
+            <mat-select [(value)]="demoLevel" name="demolevel">
+              <mat-option *ngIf="demoGroup!='hepa'" [value]="'low'">Low Risk Profile</mat-option>
+              <mat-option [value]="'mod'">Mod Risk Profile</mat-option>
+              <mat-option *ngIf="demoGroup!='hepa'" [value]="'high'">High Risk Profile</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </ng-container>
+      <heart-patient-anagraphic-form [lang]="lang" [reqPseudonym]="false" [mandPseudonym]="false"
+        [reqEmail]="true" [mandEmail]="true" [usernameField]="'email'"
+        [existenceValidator]="existenceValidator" [genderValues]="genderValues"
+        [reqBirthDate]="true" [mandBirthDate]="true" [mandGender]="true" [reqBirthPlace]="false"
+        [reqName]="true" [reqSurname]="true" [mandName]="true" [mandSurname]="true"
+        [mandTaxCode]="false" [reqFamily]="true" [relationships]="relationships" [orgsValues]="orgs"
+        [mandOrg]="true" [canOpen]="isDemoUser" (storeAndOpen)="storeUserAndOpenDemo($event)"
+        (storeIt)="storeUser($event)"></heart-patient-anagraphic-form>
+      <div *ngIf="isDemoUser && demoGroup=='yfs'" class="p-3 details">
+        <ul>
+          <li>
+            Low: 17.85 (lug/2008) - Male
+          <li>
+            Mod: 15,2 (mar/2011) - Male
+          <li>
+            High: 14,8 (ago/2011) - Male
+        </ul>
+      </div>
+      <div *ngIf="isDemoUser && demoGroup=='yfs2'" class="p-3 details">
+        <ul>
+          <li>
+            Low: 15.4 (dec/2010) - Male
+          <li>
+            Mod: 15 (may/2011) - Female
+          <li>
+            High: 12.7 (sep/2013) - Female
+        </ul>
+      </div>
+      <div *ngIf="isDemoUser && demoGroup=='hepa'" class="p-3 details">
+        <ul>
+          <li>
+            Mod: 10 (apr/2016) - Male
+        </ul>
+      </div>
+      <div class="p-3 details">
+        <span>
+          {{'new-patient.password.info.details' | translate}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

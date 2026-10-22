@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>{{ 'organization-dialog.title' | translate }}</h1>
+<div mat-dialog-content>
+  <mat-form-field class="width-full">
+    <mat-label>{{'organization-dialog.name' | translate}}</mat-label>
+    <input matInput [(ngModel)]="organizationName" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">{{'answer.cancel.label' | translate}}</button>
+  <button mat-raised-button color="primary" (click)="onAdd()">{{ 'answer.save.label' | translate }}</button>
+</div>

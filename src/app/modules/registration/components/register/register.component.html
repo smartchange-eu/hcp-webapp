@@ -1,0 +1,78 @@
+<div class="main">
+  <img class="logo" src="./assets/images/SC-logo.png" />
+  <mat-card class="main-card">
+    <mat-card-header>
+      <mat-card-title>{{'registration.card.label' | translate}}</mat-card-title>
+      <mat-card-subtitle>{{'registration.card.subtitle' | translate}}</mat-card-subtitle>
+    </mat-card-header>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <div class="d-flex flex-column flex-gap-2 m-3">
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{'registration.form.firstname'| translate}}</mat-label>
+            <input maxlength="50" matInput formControlName="firstname" required />
+            <mat-error *ngIf="registerForm.controls['firstname'].hasError('required')">
+              {{'registration.required.label' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{'registration.form.lastname'| translate}}</mat-label>
+            <input maxlength="50" matInput formControlName="lastname" required />
+            <mat-error *ngIf="registerForm.controls['lastname'].hasError('required')">
+              {{'registration.required.label' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{'registration.form.username'| translate}}</mat-label>
+            <input matInput type="email" formControlName="username" required />
+            <mat-hint>{{'registration.form.username-hint'| translate}}</mat-hint>
+            <mat-error
+              *ngIf="registerForm.controls['username'].hasError('email') && !registerForm.controls['username'].hasError('required')">
+              {{ 'registration.form.username-error' | translate }}
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['username'].hasError('required')">
+              {{'registration.required.label' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{'registration.form.organization'| translate}}</mat-label>
+            <input matInput formControlName="organization" />
+            <mat-hint>{{'registration.form.organization-hint'| translate}}</mat-hint>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{'registration.form.application'| translate}}</mat-label>
+            <mat-select formControlName="application" required>
+              <mat-option *ngFor="let app of apps" [value]="app.value">
+                {{app.display | translate}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="registerForm.controls['application'].hasError('required')">
+              {{'registration.required.label' | translate}}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{'registration.form.description'| translate}}</mat-label>
+            <textarea maxlength="1000" matInput formControlName="description" required></textarea>
+            <mat-hint>{{'registration.form.description-hint'| translate}}</mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions align="end" class="d-flex flex-row flex-gap-2">
+        <button mat-stroked-button type="button"
+          (click)="registerForm.reset()">{{'register.clear-button.label' | translate}}</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="registerForm.invalid">
+          {{'register.submit-button.label' | translate}}
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+
+  <div class="policy">
+    <strong>Privacy notice</strong>
+    <br>
+    The information provided in this form will be used to process your
+    request for access to the SmartCHANGE Web Application and will be
+    forwarded to the application administrator for this purpose.
+  </div>
+</div>

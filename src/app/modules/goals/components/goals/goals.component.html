@@ -1,0 +1,51 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div *ngIf="!loading" class="d-flex flex-column example-container fit-page" autosize>
+  <!-- ============================================================== -->
+  <!-- Goal Controls                                                  -->
+  <!-- ============================================================== -->
+  <div *ngIf="editable" class="d-flex flex-row-reverse">
+    <button mat-fab extended color="accent" (click)="openNewGoalDialog()">
+      <mat-icon>track_changes</mat-icon>
+      {{ "goals.new-goal.button" | translate }}
+    </button>
+  </div>
+  <div class="d-flex flex-row flex-wrap flex-justify-start flex-gap-3 m-2"
+    *ngIf="goals.length > 0; else nogoals">
+    <ng-container *ngFor="let fGoal of goals">
+      <heart-goal-card class="goal-card" [editable]="editable" [goal]="fGoal" [patient]="patient"
+        [practitioner]="practitioner" [defaultDueDate]="plan?.due"
+        (goalChange)="goalChangeEvent($event)"></heart-goal-card>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="!editable">
+    <h1 class="m-2">{{ 'goals.charts-section.title' | translate }}</h1>
+    <ng-container *ngIf="!loadingMeasures; else isloading">
+      <div class="d-flex flex-row flex-wrap m-2 flex-gap-1">
+        <ng-container *ngFor="let goal of goals">
+          <ng-container *ngFor="let target of goal.targets">
+            <ng-container *ngIf="mapToChartTarget(target) as chartTarget">
+              <target-card-linechart *ngIf="isHistoryCode(chartTarget?.code)" class="col-6-gap-1"
+                [goalTarget]="chartTarget" [measures]="getMeasuresForTarget(chartTarget)">
+              </target-card-linechart>
+              <target-card-barchart class="col-6-gap-1" *ngIf="isWearableCode(chartTarget?.code)"
+                [goalTarget]="chartTarget" [measures]="getMeasuresForTarget(chartTarget)">
+              </target-card-barchart>
+              <target-card-nutrition *ngIf="isNutritionCode(chartTarget?.code)" class="col-6-gap-1"
+                [goalTarget]="chartTarget" [items]="getNutritionItemsForTarget(chartTarget)">
+              </target-card-nutrition>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+  <ng-template #isloading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+  <ng-template #nogoals>
+    <div class="p-2">
+      <!-- NO DATA MESSAGE -->
+      <heart-message-box [type]="'warning'" [msg]="'goals-card.no-goals.msg'"></heart-message-box>
+    </div>
+  </ng-template>
+</div>

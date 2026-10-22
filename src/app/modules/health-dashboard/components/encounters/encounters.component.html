@@ -1,0 +1,41 @@
+<div class="d-flex flex-column p-2 flex-gap-2">
+  <!-- BUTTON ROW -->
+  <div class="d-flex flex-row p-2  flex-gap-2">
+    <button mat-fab extended color="primary" (click)="newEncounter()" [disabled]="!canCreateEncounter()">
+      <mat-icon>create_new_folder</mat-icon>
+      {{ 'patient-dashboard.button.new-encounter.label' | translate }}
+    </button>
+
+  </div>
+  <div class="d-flex flex-column p-2">
+    <heart-patient-expandible [patient]="patient" [lang]="lang"></heart-patient-expandible>
+  </div>
+  <div class="d-flex flex-column p-2">
+    <ng-container *ngIf="oldEncounters != undefined; else loading">
+      <mat-card class="col-12">
+        <mat-card-header class="p-3">
+          <mat-card-title>{{'patient-dashboard.encounters.table.title' | translate}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="(oldEncounters != undefined && oldEncounters!.length > 0) ; else noEncounters">
+            <heart-encounter-table [encounters]="oldEncounters" [lang]="lang" (selected)="encounterSelected($event)" (askRefresh)="reloadList()" [enableRefreshButton]="true" [typeSystem]="'http://smartchange.eu/encounter-type'">
+            </heart-encounter-table>
+          </div>
+          <ng-template #noEncounters>
+            <h3>{{'patient-dashboard.encounters.table.no-encounters' | translate}}</h3>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="d-flex flex-justify-between">
+        <h2>{{'patient-dashboard.encounters.table.title' | translate}}</h2>
+      </div>
+
+      <mat-progress-bar mode="query" *ngIf="!errorMsg"></mat-progress-bar>
+      <heart-message-box *ngIf="errorMsg" [type]="'warning'" [msg]="errorMsg"></heart-message-box>
+    </ng-template>
+
+  </div>
+</div>

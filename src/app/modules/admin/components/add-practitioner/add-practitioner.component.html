@@ -1,0 +1,26 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+
+<div class="m-3 d-flex flex-row">
+
+  <div>
+    <h1 class="ml-3">{{ "admin.add.hcp.title" | translate }}</h1>
+
+    <div class="card p-4" *ngIf="!loading">
+      <mat-slide-toggle *ngIf="demo" class="pl-4" [(ngModel)]="isDemoUser">Demo
+        HCP</mat-slide-toggle>
+      <heart-new-hcp-form [lang]="lang" [orgsValues]="orgsValues" [rolesValues]="roles"
+        [hideName]="true" [hideSurname]="true" [mandEmail]="true" [hideGender]="true"
+        [pwdValidationPattern]="validationPwd" [pwdValidationText]="validationTxt" [hideAge]="true"
+        [mandOrg]="true" [mandRole]="true" [appearance]="'outline'" [showOnlyLangs]="languages"
+        [existanceValidator]="existanceValidator" (storeIt)="storeUser($event)" [onlyOneOrg]="false"
+        [onlyOneRole]="true">
+      </heart-new-hcp-form>
+
+      <div class="p-3 details">
+        <span>
+          {{'new-hcp.password.info.details' | translate}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

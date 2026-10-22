@@ -1,0 +1,13 @@
+<div class="main">
+  <mat-card appearance="outlined" class="main-card">
+    <mat-card-title>{{'forbidden.title' | translate}}</mat-card-title>
+    <mat-card-content>
+      <div class="card-content">
+        <p>{{'unauthorized.content' | translate}}</p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" [routerLink]="'/web/auth/'">{{'login.label' | translate}}</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

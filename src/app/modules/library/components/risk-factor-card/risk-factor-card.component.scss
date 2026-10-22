@@ -1,0 +1,32 @@
+.counterfactual-card {
+  border: 1px solid #e0e0e0;
+  /* padding: 15px; */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.feature-line {
+  height: 90px;
+  width: 100%;
+  display: grid;
+}
+
+.risk-empty {
+  background-color: #F0F0F0;
+}
+
+.risk-low {
+  background-color: #C4E8C8;
+}
+
+.risk-moderate {
+  background-color: #FFF4C8;
+}
+
+.risk-high {
+  background-color: #FFB0AE;
+}

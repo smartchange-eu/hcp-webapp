@@ -1,0 +1,6 @@
+@use "../../../assets/styles/variable.scss";
+
+
+.mat-stepper-horizontal {
+  background-color: variable.$body-bg;
+}

@@ -1,0 +1,36 @@
+<mat-card class="d-flex height-full" [ngClass]="{'goal-disabled': disabledCommand}">
+  <mat-card-header>
+    <ng-container *ngIf="!goal.id; else statusIcon">
+      <mat-icon mat-card-avatar *ngIf="editable" color="primary" style="font-size: 2em">add_circle</mat-icon>
+    </ng-container>
+    <ng-template [ngSwitch]="goal.status" #statusIcon>
+      <mat-icon mat-card-avatar *ngSwitchCase="5" color="primary" style="font-size: 2em">play_circle_filled</mat-icon>
+      <mat-icon mat-card-avatar *ngSwitchCase="10" color="primary" style="font-size: 2em">play_circle_filled</mat-icon>
+      <mat-icon mat-card-avatar *ngSwitchCase="8" color="warn" style="font-size: 2em">cancel</mat-icon>
+      <mat-icon mat-card-avatar *ngSwitchCase="1" color="warn" style="font-size: 2em">cancel</mat-icon>
+      <mat-icon mat-card-avatar *ngSwitchCase="3" color="warn" style="font-size: 2em">cancel</mat-icon>
+      <mat-icon mat-card-avatar *ngSwitchCase="9" color="warn" style="font-size: 2em">cancel</mat-icon>
+      <mat-icon mat-card-avatar *ngSwitchCase="2" color="warn" style="font-size: 2em">cancel</mat-icon>
+    </ng-template>
+
+    <mat-card-title class="goal-title">{{ getVariableName() | translate}}</mat-card-title>
+    <mat-card-subtitle>{{getDuration()}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="flex-1">
+    <div class="flex-content-center flex-content-start">
+      <div class="col-1">
+        <mat-icon *ngIf="isDefinedByMe" style="font-size: 1em; color:orange" [matTooltip]="'goal-card.defined-by-me' | translate" matTooltipPosition="above">star</mat-icon>
+      </div>
+    </div>
+    <div *ngFor="let target of goal.targets index as i">
+      <heart-target-form [editable]="editable && !disabledCommand" [(target)]="goal.targets[i]" (targetChange)="targetChanged()"></heart-target-form>
+    </div>
+  </mat-card-content>
+  <mat-card-footer>
+    <small *ngIf="isNotValidInput" style="color:red">{{'goal-card.please_insert_valid_value' | translate}}</small>
+  </mat-card-footer>
+  <mat-card-actions *ngIf="editable">
+    <button *ngIf="!disabledCommand" mat-button color="warn" (click)="removeGoal()">{{'goal-card.remove' | translate}}</button>
+    <button *ngIf="disabledCommand" mat-button color="primary" (click)="undoRemove()">{{('goal-card.restore' | translate) | uppercase}}</button>
+  </mat-card-actions>
+</mat-card>

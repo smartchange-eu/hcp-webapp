@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>
+  {{ title | translate }}</h1>
+<div mat-dialog-content>
+  <p>{{ msg | translate}}*</p>
+  <mat-form-field class="width-full">
+    <mat-label>{{ 'new-episode-dialog.type.select' | translate}}</mat-label>
+    <mat-select [(value)]="selectedType">
+      <mat-option disabled [value]="undefined">{{'new-episode-dialog.type.select' | translate}}</mat-option>
+      <mat-option *ngFor="let i of types" [value]="i">{{i.uniqueLabelKey | translate}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- visualizza sempre -> di default quella del medico -->
+  <mat-form-field *ngIf="orgsValues.length>1" class="width-full">
+    <mat-label>{{'new-episode-dialog.org.select' | translate}}</mat-label>
+    <mat-select [(value)]="selectedOrg">
+      <mat-option *ngFor="let g of orgsValues" [value]="g"><span *ngIf="g != undefined">{{g.name ?? '' | translate}}</span></mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="close()">{{closeLabel | translate}}</button>
+  <button mat-raised-button (click)="save()" [disabled]="!selectedType" color="primary">{{okLabel | translate}}</button>
+</div>

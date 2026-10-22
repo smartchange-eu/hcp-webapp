@@ -1,0 +1,67 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div *ngIf="!loading" class="d-flex flex-column m-2 flex-gap-1">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ 'plan-edit.guidelines.title' | translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+      <div>
+        <div class="d-flex flex-column" [innerHTML]="principlesContent">></div>
+      </div>
+    </div>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngIf="suggestion" [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{"scores.mini-card.title"| translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <heart-scores-mini-card class="col-8" [card]="suggestion"></heart-scores-mini-card>
+  </mat-expansion-panel>
+  <mat-card class="col-12">
+    <mat-card-header class="p-3">
+      <mat-card-title color="accent"> {{getPlanTitle()}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="d-flex flex-column m-2 flex-gap-2">
+        <h2>{{ 'goal-card.dueDate' | translate }}</h2>
+        <div>
+          <mat-form-field>
+            <mat-label>{{'goal-card.dueDate' | translate}}</mat-label>
+            <input readonly matInput [(ngModel)]="plan!.due" [matDatepicker]="picker"
+              [min]="minDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>{{'goal-card.min.date.error' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <h2>{{ 'goals.page.bc' | translate }}</h2>
+        <heart-goals [patient]="patient!" [practitioner]="practitioner!" [(plan)]="plan"
+          [editable]="true"></heart-goals>
+        <div class="d-flex flex-row-reverse flex-gap-2">
+          <ng-container *ngIf="!isNewPlan() else cancelButton">
+            <button mat-raised-button color="primary" (click)="save()">
+              {{'plan.button.save.label' | translate}}
+            </button>
+            <button mat-raised-button color="warn" (click)="openDeletePlanDialog()">
+              {{'plan.button.delete.label' | translate}}
+            </button>
+            <button mat-raised-button (click)="back()">
+              {{'plan.button.back.label' | translate}}
+            </button>
+          </ng-container>
+          <ng-template #cancelButton>
+            <button mat-raised-button color="primary" (click)="save()">
+              {{'plan.button.save-activate.label' | translate}}
+            </button>
+            <button mat-raised-button (click)="cancel()">
+              {{'plan.button.cancel.label' | translate}}
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

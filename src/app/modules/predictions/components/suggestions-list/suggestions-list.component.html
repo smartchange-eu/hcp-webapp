@@ -1,0 +1,41 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<ng-container *ngIf="!loading">
+  <mat-drawer-container class="fit-page">
+    <mat-drawer #drawer class="risk-side-panel" mode="side" [(opened)]="opened" position="end">
+      <div class="d-flex flex-column flex-gap-2 p-3">
+        <button mat-raised-button (click)="updateRisk()" color="accent"
+          matTooltip="{{ ('risk-page.update-predictions.text' | translate) }}">
+          <mat-icon>insights</mat-icon>
+          {{ 'goal-card.update' | translate }}
+        </button>
+        <mat-slide-toggle [disableRipple]="true" (change)="toggleFiler($event)">{{'show-all.label'|
+          translate}}</mat-slide-toggle>
+        <div *ngFor="let card of selectedCards">
+          <heart-prediction-mini-card [lang]="lang" [card]="card"
+            (manageSuggestions)="selectCard($event)"
+            [showVisibilityButton]="false"></heart-prediction-mini-card>
+        </div>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <ng-container *ngIf="!noCards else nocards">
+        <div *ngIf="selectedCard else doselect" class="d-flex flex-column width-full">
+          <heart-card-detail [card]="selectedCard" [visualExplainerUrl]="veUrl"
+            [lang]="lang"></heart-card-detail>
+        </div>
+      </ng-container>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ng-container>
+<ng-template #doselect>
+  <div class="d-flex flex-items-center flex-justify-center width-full height-full">
+    <heart-message-box [type]="'info'" [icon]="'insights'"
+      [msg]="'prediction-list.no-selection.text'"></heart-message-box>
+  </div>
+</ng-template>
+<ng-template #nocards>
+  <div class="d-flex flex-items-center flex-justify-center width-full height-full">
+    <heart-message-box [type]="'warning'" [icon]="'feedback'"
+      [msg]="'prediction-list.no-cards.text'"></heart-message-box>
+  </div>
+</ng-template>

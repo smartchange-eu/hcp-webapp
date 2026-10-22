@@ -1,0 +1,17 @@
+.chart {
+  font: 10px sans-serif;
+}
+
+.bar-chart {
+  shape-rendering: crispEdges;
+}
+
+.line-chart {
+  pointer-events: none;
+}
+
+// .chart-container {
+//   width: 100%;
+//   overflow-x: auto;
+//   // display: block;
+// }

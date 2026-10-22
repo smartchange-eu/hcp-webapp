@@ -1,0 +1,19 @@
+<div class="main">
+  <mat-card class="main-card">
+    <mat-card-header>
+      <mat-card-title>{{'oidc.login.card.label' | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="card-content">
+        <p>{{'login.welcome' | translate}}</p>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button *ngIf="!isLogged" mat-raised-button color="primary" (click)='submit()'>{{'oidc.login.button.label' |
+        translate}}</button>
+      <button *ngIf="isLogged" mat-raised-button color="primary" (click)='navigateToHome()'>{{'home.label' |
+        translate}}</button>
+    </mat-card-actions>
+  </mat-card>
+
+</div>

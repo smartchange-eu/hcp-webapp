@@ -1,0 +1,42 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div class="d-flex flex-column flex-gap-2 m-3">
+  <div class="d-flex flex-column flex-lg-row flex-gap-2">
+    <mat-card class="col-12 col-lg-6">
+      <mat-card-header class="p-3">
+        <mat-card-title> {{"title.add-hcp"| translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="d-flex flex-row flex-justify-between">
+          <label>{{"card.add-hcp.content" | translate}}</label>
+          <button mat-fab extended color="primary" [routerLink]="'../add-hcp'">
+            <mat-icon>person_add_alt</mat-icon>
+            {{ 'card.add-hcp.button' | translate }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="col-12 col-lg-6">
+      <mat-card-header class="p-3">
+        <mat-card-title> {{"title.manage-org"| translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="d-flex flex-row flex-justify-between">
+          <label>{{"card.manage-orgs.content" | translate}}</label>
+          <button mat-fab extended color="primary" [routerLink]="'../manage-organizations'">
+            <mat-icon>business</mat-icon>
+            {{ 'card.manage-orgs.button' | translate }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-card *ngIf="!loading" class="col-12">
+    <mat-card-header class="p-3">
+      <mat-card-title color="accent"> {{"title.hcp-list"| translate }}</mat-card-title>
+    </mat-card-header>
+    <heart-user-list [displayedColumns]="['username', 'roles','orgs', 'enable', 'delete' ]"
+      [users]="hcpUsers" [lang]="lang" (selected)="selectedUser($event)"
+      (enable)="openEnableUserDialog($event)"
+      (delete)="openDeleteUserDialog($event)"></heart-user-list>
+  </mat-card>
+</div>

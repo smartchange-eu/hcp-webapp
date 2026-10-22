@@ -1,0 +1,21 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div *ngIf="!loading" class="m-3">
+  <div class="col-12 col-md-8 ">
+    <h1 class="ml-3">{{ "hcp.add-patient.title" | translate }}</h1>
+    <div class="p-4 card">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'add-patient.trial-group.label' | translate }}</mat-label>
+        <mat-select [(value)]="selectedGroup" name="group">
+          <mat-option *ngFor="let g of trialGroups" [value]="g">{{ g.uniqueLabelKey| translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <heart-patient-anagraphic-form [lang]="lang" [reqPseudonym]="false" [mandPseudonym]="false" [reqEmail]="true" [mandEmail]="true" [usernameField]="'email'" [existenceValidator]="existenceValidator" [genderValues]="genderValues" [reqBirthDate]="true" [mandBirthDate]="true" [mandGender]="true" [reqBirthPlace]="false" [reqName]="true" [reqSurname]="true" [mandName]="true" [mandSurname]="true" [mandTaxCode]="false" [reqFamily]="true" [relationships]="relationships" [canOpen]="false" (storeIt)="storeUser($event, false)"></heart-patient-anagraphic-form>
+      <div class="p-3 details">
+        <span>
+          {{'new-patient.password.info.details' | translate}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

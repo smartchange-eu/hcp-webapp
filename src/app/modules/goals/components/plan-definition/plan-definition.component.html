@@ -1,0 +1,78 @@
+<div>
+  <!-- progress bar -->
+  <mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+  <div *ngIf="!loading">
+    <div class="d-flex flex-column m-2 flex-gap-2">
+      <heart-patient-expandible [patient]="patient" [lang]="lang"></heart-patient-expandible>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ 'plan-edit.guidelines.title' | translate }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <div [innerHTML]="principlesContent">></div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="suggestion" [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{"scores.mini-card.title"| translate }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <heart-scores-mini-card class="col-8" [card]="suggestion"></heart-scores-mini-card>
+      </mat-expansion-panel>
+      <mat-card>
+        <mat-card-content>
+          <div>
+            <h4>{{'plan-definition.select.focus.title' | translate}}</h4>
+            <mat-form-field appearance="fill">
+              <mat-label>{{ 'plan-definition.type.label' | translate }}</mat-label>
+              <mat-select [(value)]="selectedPlanD" name="type">
+                <mat-option *ngFor="let plan of planDefinitions" [value]="plan">{{
+                  plan.focus.uniqueLabelKey| translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-header class="p-3">
+          <mat-card-title> {{"plan-definition.card.msg"| translate }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="selectedPlanD else selcetplantemplate" class="d-flex flex-column">
+            <mat-list>
+              <div mat-subheader>{{ 'plan-definition.type.label' | translate }}</div>
+              <mat-list-item>
+                <div matListItemLine>{{selectedPlanD.focus.uniqueLabelKey | translate }}</div>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+              <div mat-subheader>{{'plan-definition.goals.label' | translate }}</div>
+            </mat-list>
+            <div class="d-flex flex-row flex-wrap flex-justify-start flex-gap-3 m-2">
+              <heart-goal-card class="goal-card" *ngFor="let goal of goals" [goal]="goal"
+                [patient]="patient!" [practitioner]="practitioner!">
+              </heart-goal-card>
+            </div>
+            <mat-divider></mat-divider>
+            <small class="m-2">{{ 'save-plan-dialog.msg.edit' | translate }}</small>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary"
+            [matTooltip]="'plan-definition.confirm.label' | translate " [matTooltipShowDelay]="0"
+            [matTooltipPosition]="'above'" (click)="onConfirm()" [disabled]="!(selectedPlanD)">
+            <!-- [routerLink]="['/core/hcp/report']" -->
+            <mat-icon class="m-r-5">tune</mat-icon>
+            <span>{{ 'plan-definition.customize.label' | translate }}</span>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<ng-template #selcetplantemplate>
+  <label>{{ 'plan-definition.select.msg' | translate}}</label>
+</ng-template>

@@ -1,0 +1,117 @@
+.card {
+  width: 230px;
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+.specialty {
+  font-weight: 100;
+}
+
+a {
+  font-size: smaller;
+}
+
+.card-note {
+  font-size: smaller;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.selected {
+  box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+  background-color: #e7e7f1;
+}
+
+.new-card-icon {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  background: #fff;
+  border: 2px solid #666;
+  color: #666;
+  text-align: center;
+  font-size: 32px;
+}
+
+
+.reason {
+  color: brown;
+
+  &-title {
+    @extend .reason;
+    font-weight: bold;
+  }
+}
+
+.note {
+  font-weight: 300;
+
+  &-title {
+    @extend .note;
+    font-weight: bold;
+  }
+}
+
+.details-box {
+  background-color: whitesmoke;
+  border: var(--primary-color, lightcyan);
+  border-radius: 5px;
+  border-width: thin;
+  border-style: dotted;
+}
+
+.practitioner {
+  font-weight: 100;
+  font-size: small;
+  font-style: italic;
+}
+
+.hidden {
+  background-color: #dcdada3d;
+}
+
+.display-info {
+  background-color: var(--primary-color, lightcyan) !important;
+}
+
+.display-warning {
+  background-color: var(--warning-color, lightpink) !important;
+  color: var(--light-text-color, #ccc) !important;
+}
+
+.display-severe {
+  background-color: var(--critical-color, lightcoral) !important;
+  color: var(--light-text-color, #ccc) !important;
+}
+
+.status-new {
+  background-color: #98F0F5 !important;
+}
+
+.status-hidden {
+  background-color: #DBC7BA !important;
+}
+
+.status-accepting {
+  background-color: #E1F598 !important;
+}
+
+.status-accepted {
+  background-color: #AAD796 !important;
+}
+
+.status-overridden {
+  background-color: #F5BD98 !important;
+}
+
+.status-read {
+  background-color: #86D4D8 !important;
+}
+
+.status-stale {
+  background-color: lightsteelblue !important;
+}

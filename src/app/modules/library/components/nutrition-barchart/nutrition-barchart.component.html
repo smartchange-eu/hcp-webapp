@@ -1,0 +1,14 @@
+<div *ngFor="let chart of groupedData" class="chart-wrapper">
+  <h2>{{ chart.product | translate }}</h2>
+  <ngx-charts-bar-vertical [customColors]="customColors" [results]="chart.series" [gradient]="true"
+    [legend]="false" [xAxis]="true" [yAxis]="true" [showXAxisLabel]="false" [showYAxisLabel]="true"
+    [yAxisLabel]="chart.unitOfMeasure | translate" [noBarWhenZero]="false"
+    [xAxisTickFormatting]="xAxisTickFormatting">
+    <ng-template #tooltipTemplate let-model="model">
+      <div class="d-flex flex-column">
+        <label>{{ model.name | date: dateFormat }}</label>
+        <small>{{ model.value | number : "1.0-1" }} {{ chart.unitOfMeasure | translate }}</small>
+      </div>
+    </ng-template>
+  </ngx-charts-bar-vertical>
+</div>

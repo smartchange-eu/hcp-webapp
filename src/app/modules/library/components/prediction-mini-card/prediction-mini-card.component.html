@@ -1,0 +1,67 @@
+<div class="card" [ngClass]="{ 'selected':card.selected, 'hidden' : card.status=='hidden'}">
+  <div class="d-flex flex-column flex-gap-1 p-2">
+    <!-- STATO -->
+    <div class="d-flex flex-row flex-justify-between flex-content-center flex-items-center">
+      <mat-chip-set>
+        <ng-container [ngSwitch]="card.status">
+          <mat-chip *ngSwitchCase="'new'" class="status-new"><mat-icon matChipAvatar>auto_awesome</mat-icon>{{card.status | translate}}</mat-chip>
+          <mat-chip *ngSwitchCase="'hidden'" class="status-hidden"><mat-icon matChipAvatar>visibility_off</mat-icon>{{card.status | translate}}</mat-chip>
+          <mat-chip *ngSwitchCase="'accepting'" class="status-accepting"><mat-icon matChipAvatar>done</mat-icon>{{card.status | translate}}</mat-chip>
+          <mat-chip *ngSwitchCase="'accepted'" class="status-accepted"><mat-icon matChipAvatar>check_circle</mat-icon>{{card.status | translate}}</mat-chip>
+          <mat-chip *ngSwitchCase="'overridden'" class="status-overridden"><mat-icon matChipAvatar>cancel</mat-icon>{{card.status | translate}}</mat-chip>
+          <mat-chip *ngSwitchCase="'read'" class="status-read"><mat-icon matChipAvatar>beenhere</mat-icon>{{card.status | translate}}</mat-chip>
+          <mat-chip *ngSwitchCase="'stale'" class="status-stale"><mat-icon matChipAvatar>disabled_by_default</mat-icon>{{card.status | translate}}</mat-chip>
+        </ng-container>
+        <mat-chip *ngIf="card.createdOn"><mat-icon matChipAvatar>event</mat-icon>{{(card.createdOn| dfnsFormat: 'PPpp')}}</mat-chip>
+      </mat-chip-set> <!-- Specialty e livello -->
+    </div>
+    <!-- TITOLO -->
+    <div class="d-flex flex-row flex-justify-between flex-content-center flex-items-center">
+      <!-- <div *ngIf="card.unseen; else defaultTitle" matBadge="N" matBadgePosition="before" matBadgeOverlap="false" matBadgeColor="accent" [ngClass]="{'ml-3': card.unseen}"> -->
+      <!-- <span class="card-title">{{card.label}}</span> -->
+      <!-- <div *ngIf="card.unseen; else defaultTitle">
+        <span class="card-title">{{card.label}}</span>
+      </div>
+      <ng-template #defaultTitle>
+        <span class="card-title">{{card.label}}</span>
+      </ng-template> -->
+      <div *ngIf="showVisibilityButton && (card.status == 'new' || card.status == 'hidden') ">
+        <ng-container *ngIf="card.status != 'hidden'; else showCard ">
+          <button mat-icon-button (click)="toggleCardVisibility(card)" matTooltip="{{'cdss.card.hide.button.tooltip' | translate }}" matTooltipPosition="left">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
+        </ng-container>
+        <ng-template #showCard>
+          <button mat-icon-button (click)="toggleCardVisibility(card)" matTooltip="{{'cdss.card.unhide.button.tooltip' | translate }}" matTooltipPosition="left">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </ng-template>
+      </div>
+
+    </div>
+    <div *ngFor="let s of card.suggestions" class="d-flex flex-column flex-content-center flex-items-center">
+      <ng-container *ngFor="let risk of getRisks(s)">
+        <ng-container *ngIf="getPrediction(risk) as prediction">
+          <span *ngIf="prediction && prediction?.code"> {{prediction.code.uniqueLabelKey | translate }}</span>
+          <heart-risk-level-card [risk]="prediction"></heart-risk-level-card>
+        </ng-container>
+      </ng-container>
+    </div>
+    <span class="card-note" *ngIf="card.label">{{card.label! | translate}}</span>
+    <!-- pulsanti -->
+    <div class="d-flex flex-row flex-justify-end flex-content-center flex-items-centerflex-gap-2" *ngIf="showDetailsButton && !card.selected">
+      <button mat-raised-button color="primary" (click)="openCard(card)">{{'cdss.card.manage-suggestion.button.label' | translate}}</button>
+    </div>
+    <div class="d-flex flex-column flex-gap-2 details-box" *ngIf="card.overrideReason">
+      <div class="d-flex flex-column">
+        <span class="reason-title"> {{'cdss.card.override-reason.label' | translate}}</span>
+        <span class="reason">{{ card.overrideReason.display! | translate}}</span>
+      </div>
+      <div class="d-flex flex-column" *ngIf="card.overrideNote">
+        <span class="note-title"> {{'cdss.card.override-note.label' | translate}}</span>
+        <span class="note">{{ card.overrideNote}}</span>
+      </div>
+    </div>
+
+  </div>
+</div>

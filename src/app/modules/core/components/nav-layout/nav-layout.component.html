@@ -1,0 +1,133 @@
+<mat-sidenav-container class="sidenav-container" autosize>
+  <!-- 
+   - SUGGESTIONS SIDEBAR (right side) 
+   -->
+  <!-- <mat-sidenav #suggestion position="end" *ngIf="suggestionSidebar" class="sidenav-suggestion" fixedInViewport mode="side" [opened]="suggestionOpened && (isSmall$ | async) === false">
+    <heart-cdss-cards-bar></heart-cdss-cards-bar>
+  </mat-sidenav> -->
+
+  <!-- 
+   - ACTIOMS SIDEBAR (left side) 
+   -->
+  <mat-sidenav class="sidenav" #drawer fixedInViewport
+    [attr.role]="(isSmall$ | async) ? 'dialog' : 'navigation'" mode="side"
+    [opened]="(isSmall$ | async) === false">
+    <div class="d-flex flex-column flex-justify-between height-full">
+      <div><mat-toolbar class="mat-elevation-z3">
+          <!-- Menu -->
+          <div class="logo-nav">
+            <a href="/">
+              <img src="./assets/images/logo-inline.svg" />
+            </a>
+          </div>
+        </mat-toolbar>
+        <div class="mini-card">
+          <heart-patient-mini-card *ifInRole="['practitioner', 'nurse']" [patient]="currentPatient"
+            [lang]="lang" [hideSelect]="true" (selectPatient)="toPatientList()"
+            (deselectPatient)="deselectPatient()"></heart-patient-mini-card>
+        </div>
+        <mat-nav-list class="d-flex flex-column">
+          <ng-container *ngFor="let menuitem of menuItems">
+            <mat-list-item *ngIf="menuitem.type !== 'separator' else divider"
+              [ngClass]="{ 'mat-list-subheader': menuitem.type === 'subheader' }"
+              class="d-flex flex-row">
+              <button mat-icon-button matListItemMeta [routerLink]="['/'.concat(menuitem.state!)]">
+                <mat-icon>{{ menuitem.icon }}</mat-icon>
+              </button>
+              <a matListItemTitle [routerLink]="['/'.concat(menuitem.state!)]"
+                routerLinkActive="selected"
+                *ngIf="menuitem.type === 'link' || menuitem.type === 'internal-link'">
+                <div matBadge="{{ menuitem.badge?.value }}" matBadgeSize="small" class="badge-menu"
+                  matBadgeOverlap="false" matBadgeColor="accent">
+                  {{ ( menuitem?.name || '' ) | translate }}
+                </div>
+                <!-- <span>{{ menuitem.name | translate }}</span> -->
+                <!-- <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span> -->
+              </a>
+              <span *ngIf="menuitem.type === 'subheader'">{{ ( menuitem.name || '' ) | translate
+                }}</span>
+            </mat-list-item>
+            <mat-divider [inset]="true" *ngIf="menuitem.type === 'internal'"></mat-divider>
+            <ng-template #divider>
+              <mat-divider></mat-divider>
+            </ng-template>
+          </ng-container>
+        </mat-nav-list>
+      </div>
+
+      <div class="m-1 d-flex flex-row flex-justify-between flex-items-center">
+        <small>v. {{webAppVersion}}</small>
+        <a *ngIf="bugReportUrl" mat-icon-button [href]="bugReportUrl" target="_blank"
+          [matTooltip]="'nav.bug.report.tooltip' | translate" rel="noopener">
+          <mat-icon>bug_report</mat-icon>
+        </a>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="navbar mat-elevation-z3">
+      <div>
+        <button type="button" [attr.aria-label]="'toggle-sidenav' | translate" mat-icon-button
+          (click)="drawer.toggle()" *ngIf="isSmall$ | async">
+          <mat-icon [attr.aria-label]="'side-nav-toggle-icon' | translate">menu</mat-icon>
+        </button>
+        <xng-breadcrumb [separator]="iconTemplate">
+          <ng-container *xngBreadcrumbItem="
+              let breadcrumb;
+              let info = info;
+              let first = first;
+              let last = last
+            ">
+            <mat-icon *ngIf="info">{{ info }}</mat-icon>
+            <ng-container class="container-truncable">
+              <span [ngClass]="{ truncable: !last && !first, bolder: last }">
+                {{ breadcrumb | translate }}
+              </span></ng-container>
+          </ng-container>
+        </xng-breadcrumb>
+        <ng-template #iconTemplate>
+          <mat-icon>chevron_right</mat-icon>
+        </ng-template>
+      </div>
+      <!-- contenitore per eventuali pulsanti alla destra della pagina -->
+      <div>
+        <button *ngIf="suggestionSidebar && currentPatient && !controlGroup" mat-icon-button
+          [attr.aria-label]=" 'toggle-suggestions' | translate"
+          [routerLink]="['/web/hcp/dashboard/risk/predictions']"
+          matTooltip="{{'menu.suggestion.tooltip' | translate}}" showDelay="tooltipDelay">
+          <mat-icon [matBadge]="suggestionBadge" matBadgeColor="warn"
+            [matBadgeHidden]="suggestionBadge <= 0">insights</mat-icon>
+          <!-- <mat-icon *ngIf="suggestionBadge <= 0" matBadgePosition="before" [matBadge]="presentBadge" matBadgeColor="primary" [matBadgeHidden]="presentBadge <= 0">psychology</mat-icon> -->
+        </button>
+        <button mat-icon-button [matMenuTriggerFor]="profile">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #profile="matMenu">
+          <div class="d-flex flex-row m-3">
+            <mat-icon class="mr-3">account_circle</mat-icon>
+            <span>
+              {{ currentUser?.username }}
+            </span>
+          </div>
+          <button mat-menu-item [matMenuTriggerFor]="languages">
+            <mat-icon>translate</mat-icon>
+            <span>{{ "menu.language.tooltip" | translate }}</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>{{ "menu.logout.label" | translate }}</span>
+          </button>
+        </mat-menu>
+        <mat-menu #languages="matMenu">
+          <div *ngFor="let l of supportedLanguages">
+            <button mat-menu-item (click)="switchTo(l)">
+              <span>{{ l.display }}</span>
+            </button>
+          </div>
+        </mat-menu>
+      </div>
+    </mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

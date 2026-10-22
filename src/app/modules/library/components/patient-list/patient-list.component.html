@@ -1,0 +1,186 @@
+<div class="d-flex flex-column pl-3 pr-3">
+
+  <div class="d-flex flex-justify-between">
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'patient.list.filter.label' | translate }}</mat-label>
+      <input matInput (keyup)="applyFilter($event)"
+        placeholder="{{ 'patient.list.filter.placeholder' | translate }}" #input>
+    </mat-form-field>
+
+    <button class="refreshButton" *ngIf="enableRefreshButton" mat-icon-button color="secondary"
+      (click)="refreshList()" matTooltip="{{'patient.list.button.refresh' | translate }}"
+      matTooltipPosition="above">
+      <mat-icon>refresh</mat-icon>
+    </button>
+
+  </div>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource!" matSort (matSortChange)="sortData($event)"
+      multiTemplateDataRows>
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'patient.list.table.header.id' |
+          translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.patient.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'patient.list.table.header.age' |
+          translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.patient.age}} </td>
+      </ng-container>
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'patient.list.table.header.email'
+          |
+          translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.patient.email}} </td>
+      </ng-container>
+      <ng-container matColumnDef="birthDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{
+          'patient.list.table.header.birth-date' | translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.patient.birthDate | dfnsFormat: 'P'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'patient.list.table.header.name' |
+          translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.patient.firstName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="family">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'patient.list.table.header.family'
+          | translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.patient.lastName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'patient.list.table.header.email'
+          | translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.patient.email}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="organization">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{
+          'patient.list.table.header.organization' | translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.patient.managingOrganization?.name ?? '-'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'patient.list.table.header.gender'
+          | translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{ ( row.patient.gender ? ('patient.list.table.gender.'
+          + row.patient.gender.toString()) : '-' ) | translate }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="group">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'add-patient.trial-group.label' |
+          translate }} </th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row"> {{row.trialGroup.uniqueLabelKey | translate}} </td>
+      </ng-container>
+
+      <!-- enable / disable  Column -->
+      <ng-container matColumnDef="enable">
+        <th mat-header-cell *matHeaderCellDef> {{ "encounter.table.header.status" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row"
+          [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}">
+          <mat-icon>{{row.user?.enabled?'person':'person_off'}}</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expand">
+        <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+        <td [ngClass]="{'light-disabled': row.user&&row.user?.enabled == false}" mat-cell
+          *matCellDef="let row">
+          <button mat-icon-button aria-label="expand row"
+            (click)="(clicked(row)); $event.stopPropagation()">
+            <mat-icon *ngIf="expandedElement !== row">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="expandedElement === row">keyboard_arrow_up</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+          <div class="example-element-detail"
+            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div *ngIf="expandedElement" class="d-flex flex-column width-full p-3 flex-gap-2">
+              <div class="d-flex flex-row flex-justify-start">
+                <mat-icon class="big-icon" [inline]="true">face</mat-icon>
+                <!-- <mat-icon class="big-icon" [inline]="true">{{selectedPatient.gender.toString() == 'male' ? 'man' : 'woman'}}</mat-icon> -->
+                <div><mat-card-title>{{expandedElement.patient.getFullName()}}</mat-card-title>
+                  <mat-card-subtitle>{{expandedElement.patient.gender.toString() |
+                    translate}}</mat-card-subtitle>
+                </div>
+              </div>
+              <div *ngIf="expandedElement.trialGroup || expandedElement.dataVisible != undefined"
+                class="mb-2">
+                <div *ngIf="expandedElement.trialGroup"
+                  class="d-flex flex-row flex-justify-start flex-gap-5">
+                  <label class="medium">{{ 'user.trial-group.label' | translate }}</label>
+                  <label>{{expandedElement.trialGroup.uniqueLabelKey| translate}}</label>
+                </div>
+                <div *ngIf="expandedElement.dataVisible != undefined"
+                  class="d-flex flex-row flex-justify-start flex-gap-5">
+                  <label class="medium">{{ 'user.data-visible.label' | translate }}</label>
+                  <label>{{(expandedElement.dataVisible?'questionnaire.boolean.true':'questionnaire.boolean.false')
+                    | translate}}</label>
+                </div>
+                <mat-divider class="mt-2"></mat-divider>
+              </div>
+              <heart-patient-family-card [selectedPatient]="expandedElement.patient"
+                [showOrg]="true" [canRemoveFM]="canRemoveFM"
+                (removeFM)="askRemove.emit({entry: expandedElement, fm: $event})"
+                [selectedFamily]="expandedElement.familyMembers"></heart-patient-family-card>
+              <div class="d-flex flex-row flex-justify-end flex-gap-3">
+                <ng-container *ngFor="let action of actions">
+                  <button *ngIf="action.label else iconButton" mat-raised-button
+                    [color]="action.color" (click)="editPatient(expandedElement, action.key)">
+                    <mat-icon *ngIf="action.icon">{{action.icon}}</mat-icon>
+                    {{((action.label | translate)| uppercase)}}
+                  </button>
+                  <ng-template #iconButton>
+                    <button mat-raised-button *ngIf="action.icon" [color]="action.color"
+                      (click)="editPatient(expandedElement, action.key)">
+                      <mat-icon class="icon-centered">{{action.icon}}</mat-icon>
+                    </button>
+                  </ng-template>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+      <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;"
+        class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+        (click)="clicked(element)">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+      </tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">{{ input.value ? (( 'patient.list.table.filter.no-result' |
+          translate) && input.value ) : (( 'patient.list.table.no-data' | translate)) }} </td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="paginationOptions!" [pageSize]="pageSize"></mat-paginator>
+  </div>
+
+</div>

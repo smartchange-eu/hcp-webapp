@@ -1,0 +1,92 @@
+@use "../../../../assets/styles/variable.scss";
+
+.title {
+  font-weight: 600;
+  font-size: large;
+  margin-top: 8px;
+}
+
+.values {
+  color: variable.$dark;
+}
+
+.present {
+  color: variable.$primary;
+}
+
+.not-present {
+  color: variable.$accent;
+}
+
+li {
+  padding-left: 1.5rem;
+}
+
+// mat-expansion-panel {
+//   background-color: transparent !important;
+// }
+
+mat-panel-title {
+  color: variable.$primary !important;
+  font-weight: bolder;
+  font-size: large;
+}
+
+// mat-expansion-panel-body {
+//   padding-left: 12px !important;
+// }
+
+h1 {
+  margin-bottom: 0;
+}
+
+.you {
+  background-color: lightsteelblue;
+}
+
+.legend-chip {
+  width: 24px;
+  height: 11px;
+  border-radius: 25%;
+  display: inline-block;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+/* label text */
+.legend-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.legend-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.legend-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.87);
+  white-space: nowrap;
+}
+
+.help-icon {
+  height: 24px !important;
+  width: 24px !important;
+  padding: 2px !important;
+}

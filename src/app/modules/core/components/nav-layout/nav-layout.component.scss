@@ -1,0 +1,129 @@
+@use "../../../../../assets/styles/variable.scss";
+
+// .navbar {
+//   display: flex;
+//   flex-shrink: 0;
+//   flex-grow: 1;
+//   justify-content: space-between;
+//   align-items: center;
+//   position: sticky;
+// }
+
+// .sidenav-container {
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+// }
+
+.navbar {
+  position: sticky; // importante per pagine molto lunghe
+  position: -webkit-sticky;
+  /* For macOS/iOS Safari */
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 1;
+  justify-content: space-between;
+  align-items: center;
+  color: variable.$primary !important;
+}
+
+.sidenav-container {
+  position: relative;
+  height: 100%;
+  display: block;
+  transform: inherit;
+}
+
+.sidenav {
+  min-width: 200px;
+}
+
+.logo-nav>*>img {
+  max-width: 300px;
+  max-height: 64px;
+  padding-top: 8px;
+  // margin-left: 16px;
+}
+
+::ng-deep {
+
+  .mat-badge-content {
+    top: -3px !important;
+    right: -5px !important;
+  }
+
+  .mat-mdc-card-title {
+    font-weight: bolder !important;
+    color: variable.$primary !important;
+  }
+
+  .xng-breadcrumb-root {
+    // padding: 8px 16px;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 4px;
+    // background-color: #e7f1f1;
+  }
+
+  .xng-breadcrumb-separator {
+    padding: 0 2px;
+  }
+
+  .xng-breadcrumb-list {
+    color: variable.$primary !important;
+  }
+
+  .xng-breadcrumb-trail {
+    color: variable.$primary !important;
+
+    .mat-icon {
+      margin-right: 8px;
+    }
+  }
+
+  .badge-menu {
+    margin: 0px 16px 0 0;
+  }
+
+  li.xng-breadcrumb-item:has(> a > span.truncable) {
+    max-width: 25%;
+  }
+}
+
+.truncable {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+mat-nav-list {
+  padding-top: 0 !important;
+}
+
+// .mini-card {
+//   padding-top: 20px;
+//   padding-bottom: 20px;
+// }
+
+.bolder {
+  font-weight: 600;
+}
+
+.footer {
+  min-height: 16px;
+}
+
+.version {
+  font-style: italic;
+  font-weight: 200;
+  font-size: small;
+}
+
+.sidenav-suggestion {
+  max-width: 350px;
+  width: 310px;
+}

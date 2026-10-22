@@ -1,0 +1,34 @@
+<div *ngFor="let prediction of risk!.predictions" class="d-flex flex-row flex-gap-1">
+  <mat-card class="flex-1" *ngIf="!loading">
+    <mat-card-header>
+      <mat-card-title>{{outcome.uniqueLabelKey |
+        translate }} - {{('explanation.counterfactual.label' | translate : {age: prediction.age |
+        number: '1.0-0'})}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="height-full">
+      <div class="gauge-content">
+        <!-- <ngx-charts-bar-vertical-stacked [yScaleMax]="scaleMax" [customColors]="customColors"
+          [results]="multi" [xAxis]="showXAxis" [yAxis]="showYAxis"
+          [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+          [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [showDataLabel]="false"
+          [dataLabelFormatting]="riskValueFormatter">
+          <ng-template #tooltipTemplate let-model="model">
+            <div class="d-flex flex-column">
+              <label>{{('explanation.counterfactual.label' | translate : {age: model.extra.age |
+                number: '1.0-0'})}}</label>
+              <small>{{model.extra.min | number: '1.0-1' }} - {{model.extra.max | number: '1.0-1' }}
+                %</small>
+            </div>
+          </ng-template>
+        </ngx-charts-bar-vertical-stacked> -->
+        <heart-risk-level-gauge class="risk-gauge" *ngFor="let p of risk!.predictions"
+          [showUncertainty]="true" [risk]="p"></heart-risk-level-gauge>
+      </div>
+      <small *ngIf="risk&& risk.date && showDate">{{('cdss.computed-on.label' | translate) +
+        (risk.date | dfnsFormat: 'Pp')}}</small>
+    </mat-card-content>
+    <mat-card-actions *ngIf="showActions && risk?.mitigation"> <button mat-raised-button
+        color="primary" (click)="showMitigation()">{{'risk-card.show.explanation.button' |
+        translate}}</button></mat-card-actions>
+  </mat-card>
+</div>

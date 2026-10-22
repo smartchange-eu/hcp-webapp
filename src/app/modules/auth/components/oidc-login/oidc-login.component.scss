@@ -1,0 +1,32 @@
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-card {
+  margin: 20px;
+  width: 80%;
+    align-self: center;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+@media screen and (min-width: 768px) {
+  .main-card {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .main-card {
+    width: 60%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .main-card {
+    width: 50%;
+  }
+}

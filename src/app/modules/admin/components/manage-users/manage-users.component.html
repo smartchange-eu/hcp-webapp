@@ -1,0 +1,29 @@
+<mat-progress-bar *ngIf="loading|| enhancing" mode="query"></mat-progress-bar>
+<div class="d-flex flex-column flex-items-center m-3">
+  <mat-card class="col-12 m-3">
+    <mat-card-header class="p-3">
+      <mat-card-title> {{"title.add-patient"| translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="d-flex flex-row flex-justify-between">
+        <label>{{"card.add-patient.content" | translate}}</label>
+        <button mat-fab extended color="primary" [routerLink]="'../add-user'">
+          <mat-icon>person_add</mat-icon>
+          {{ 'card.add-patient.button' | translate }}
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card *ngIf="!loading && !enhancing" class="col-12 m-3">
+    <mat-card-header class="p-3">
+      <mat-card-title color="accent"> {{"title.participants-list"| translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <heart-trial-patient-list [lang]="lang" [patients]="patientsList" [canRemoveFM]="true"
+        (askRemove)="doRemoveFM($event)" [displayedColumns]="pat_columns"
+        [enableRefreshButton]="false" [expand]="true" [actions]="actions"
+        (askEdit)="performAction($event)">
+      </heart-trial-patient-list>
+    </mat-card-content>
+  </mat-card>
+</div>

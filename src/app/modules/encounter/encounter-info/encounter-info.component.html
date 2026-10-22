@@ -1,0 +1,91 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div class="d-flex flex-column flex-gap-2 flex-basis-50 p-3" *ngIf="currentEncounter && !loading">
+  <div class="closed-encounter" *ngIf="!isActiveEncounter">
+    <heart-message-box [type]="'warning'" [msg]="'patient-dashboard.encounters.read-only'" [icon]="'lock'"></heart-message-box>
+  </div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{ 'http://smartchange.eu/encounter-type' +'|'+currentEncounter.type | translate}}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="d-flex flex-row">
+        <div class="col-1">
+          {{ 'encounter-review.opened.label' | translate }}
+        </div>
+        <div class="col-11">
+          <p>
+            {{currentEncounter.startDate | dfnsFormat: 'PPpp'}}
+          </p>
+        </div>
+      </div>
+      <div *ngIf="currentEncounter.closingDate" class="d-flex flex-row">
+        <div class="col-1">
+          {{ 'encounter-review.closed.label' | translate }}
+        </div>
+        <div class="col-11">
+          <p>
+            {{(currentEncounter.closingDate | dfnsFormat: 'P')}}
+          </p>
+        </div>
+      </div>
+      <div class="d-flex flex-column fit-page" *ngIf="isActiveEncounter">
+        <mat-form-field class="message-input m-2 flex-1">
+          <mat-label>{{'episode.notes.input.label'| translate}}</mat-label>
+          <textarea matInput [(ngModel)]="notesText"></textarea>
+        </mat-form-field>
+        <div class="d-flex m-2 flex-row-reverse">
+          <button mat-raised-button color="primary" (click)="saveNotes()">
+            {{'episode.button.notes.label' | translate}}
+          </button>
+        </div>
+      </div>
+      <div class="d-flex flex-column fit-page" *ngIf="currentEncounter.notes && currentEncounter.notes.length>0 && !isActiveEncounter">
+        <h2> {{ 'encounter-review.notes.label' | translate }}</h2>
+        <div *ngFor="let note of currentEncounter.notes ; let last = last;" class="d-flex flex-column flex-gap-2">
+          <p>
+            {{ note.body}}
+          </p>
+          <small>{{note.createdAt | dfnsFormat: 'P'}}</small>
+          <mat-divider *ngIf="!last"></mat-divider>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-accordion *ngIf="isActiveEncounter" multi>
+    <mat-expansion-panel *ngIf="alreadyCollected.length > 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{'episode.button.pe.label'|translate}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <heart-generic-quantitative-form [readOnly]="true" [editMode]="false" [enableActionButtons]="true" [structure]="pe" [lang]="lang" [alreadyCollected]="alreadyCollected" [showNotes]="false" [mandTimestamp]="false"></heart-generic-quantitative-form>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="alreadyCollected.length > 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{'episode.button.lab.label'|translate}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <heart-generic-quantitative-form [readOnly]="true" [editMode]="false" [enableActionButtons]="true" [structure]="lab" [lang]="lang" [alreadyCollected]="alreadyCollected" [showNotes]="false" [mandTimestamp]="true"></heart-generic-quantitative-form>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="history">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{'episode.button.history.label'|translate}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <heart-questionnaire-section *ngIf="history" [questionnaireResponse]="history" [showHeader]="false" [firstLevelGroupFormat]="'none'" [lang]="lang" questionLastChar="" [editMode]="false" [smallQuestionColumn]="true" [readOnly]="true">
+      </heart-questionnaire-section>
+    </mat-expansion-panel>
+    <mat-expansion-panel *ngIf="lifeStyle">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{'episode.button.lifestyle.label'|translate}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <heart-questionnaire-section *ngIf="lifeStyle" [questionnaireResponse]="lifeStyle" [showHeader]="false" [firstLevelGroupFormat]="'none'" [lang]="lang" questionLastChar="" [editMode]="false" [smallQuestionColumn]="true" [readOnly]="true">
+      </heart-questionnaire-section>
+    </mat-expansion-panel>
+  </mat-accordion>

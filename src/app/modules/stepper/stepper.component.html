@@ -1,0 +1,16 @@
+<mat-horizontal-stepper #stepper (selectionChange)="selectionChanged($event)">
+  <mat-step #myStep *ngFor="let step of steps; let i = index" [routerLink]="step.path">
+    <ng-template matStepLabel>{{step.title | translate}}</ng-template>
+    <ng-template matStepContent>
+      <router-outlet *ngIf="i === selectedStepIndex"></router-outlet>
+      <div *ngIf="i === 0" class="d-flex flex-row flex-justify-end">
+        <button *ngIf="i < steps.length-1" mat-raised-button color="primary" matStepperNext>{{ 'stepper.next.button' | translate }}</button>
+      </div>
+      <div *ngIf="i >0" class="d-flex flex-row flex-justify-between">
+        <button mat-raised-button matStepperPrevious>{{ 'stepper.back.button' | translate }}</button>
+        <button *ngIf="i < steps.length-1" mat-raised-button color="primary" matStepperNext>{{ 'stepper.next.button' | translate }}</button>
+        <button *ngIf="i === steps.length-1" mat-raised-button color="primary" (click)="finish()">{{ 'stepper.finish.button' | translate }}</button>
+      </div>
+    </ng-template>
+  </mat-step>
+</mat-horizontal-stepper>

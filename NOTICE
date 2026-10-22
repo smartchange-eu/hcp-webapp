@@ -1,0 +1,18 @@
+This distribution contains components from the Heart UI Angular Libraries.
+
+The main application source code is distributed under the MIT License.
+See LICENSE.
+
+The pre-built Heart UI library packages located under:
+
+    vendor/heart-ui/
+
+are separate components distributed under the Apache License,
+Version 2.0.
+
+Copyright 2026 Alfahealth S.p.A.
+
+A copy of the Apache License, Version 2.0 applicable to these
+components is provided in:
+
+    THIRD-PARTY-LICENSES/APACHE-2.0.txt

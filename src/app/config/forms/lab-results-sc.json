@@ -1,0 +1,64 @@
+{
+  "sections": [
+    {
+      "label": {
+        "system": "http://loinc.org",
+        "code": "30954-2"
+      },
+      "valuesToCollect": [
+        {
+          "min": 0.5,
+          "max": 60,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "76629-5"
+          },
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "mmol/L",
+            "display": "mmol/L"
+          }
+        },
+        {
+          "min": 1,
+          "max": 25,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "14647-2"
+          },
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "mmol/L",
+            "display": "mmol/L"
+          }
+        },
+        {
+          "min": 0.1,
+          "max": 5,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "14646-4"
+          },
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "mmol/L",
+            "display": "mmol/L"
+          }
+        },
+        {
+          "min": 0.26,
+          "max": 10,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "22748-8"
+          },
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "mmol/L",
+            "display": "mmol/L"
+          }
+        }
+      ]
+    }
+  ]
+}

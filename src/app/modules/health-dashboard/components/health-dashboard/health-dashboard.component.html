@@ -1,0 +1,27 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<div *ngIf="!loading" class="dashboard-container fit-page">
+  <nav class="hd-menu" mat-tab-nav-bar backgroundColor="primary" stretchTabs="false"
+    [tabPanel]="tabPanel">
+    <!-- <mat-toolbar color="primary"> -->
+    <a class="hd-menu-item" mat-tab-link [routerLink]="['summary']" routerLinkActive
+      #rla1="routerLinkActive" [active]="rla1.isActive">{{ 'health-dashboard.button.summary.label' |
+      translate}}</a>
+    <a class="hd-menu-item" mat-tab-link [routerLink]="['encounters']" routerLinkActive
+      #rla5="routerLinkActive" [active]="rla5.isActive">{{
+      'health-dashboard.button.encounters.label' | translate }}</a>
+    <a class="hd-menu-item" mat-tab-link [routerLink]="['history']" routerLinkActive
+      #rla4="routerLinkActive" [active]="rla4.isActive">{{ 'health-dashboard.button.history.label' |
+      translate }}</a>
+    <a class="hd-menu-item" *ngIf="showRisk" mat-tab-link [routerLink]="['risk']" routerLinkActive
+      #rla2="routerLinkActive" [active]="rla2.isActive">{{ 'health-dashboard.button.risk.label' |
+      translate }}</a>
+    <a class="hd-menu-item" *ngIf="!control" mat-tab-link [routerLink]="['goals']" routerLinkActive
+      #rla3="routerLinkActive" [active]="rla3.isActive">{{ 'health-dashboard.button.goals.label' |
+      translate }}</a>
+    <!-- </mat-toolbar> -->
+  </nav>
+  <mat-tab-nav-panel #tabPanel>
+    <!-- contenuto della pagina relativo al click sul pulsante nella toolbar -->
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
+</div>

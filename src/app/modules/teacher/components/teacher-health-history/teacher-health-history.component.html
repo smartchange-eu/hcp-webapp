@@ -1,0 +1,72 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+
+<ng-container *ngIf="!loading">
+  <heart-patient-expandible [patient]="patient" [lang]="lang"></heart-patient-expandible>
+  <mat-tab-group class="fit-page">
+    <mat-tab [label]="historyCategory | translate">
+      <div *ngIf="keys.length > 0; else noMeasures" class="d-flex flex-column flex-gap-2 p-3">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{
+              "history.latest.title" | translate
+              }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <heart-patient-measurements-card [measures]="getValuesArray(measMap)" [codes]="cvs">
+            </heart-patient-measurements-card>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+          <mat-card-content>
+            <div class="d-flex flex-column flex-gap-4" *ngFor="let key of keys; let last = last">
+              <ng-container *ngIf="measMap.get(key) as series">
+                <heart-quantitative-barchart *ngIf="series.length" class="chart-container"
+                  [items]="series" [showLegend]="false" [showXAxisLabel]="false"
+                  [showYAxisLabel]="true" [unitAsYAxis]="true" [title]="key"
+                  [colorScheme]="colorScheme" [dateFormat]="dateFormat" [showDetails]="true"
+                  [hideAmended]="true">
+                </heart-quantitative-barchart>
+              </ng-container>
+
+              <mat-divider class="m-3" *ngIf="!last"></mat-divider>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="nutritionCategory | translate">
+      <div *ngIf="nutritionItems.length > 0; else noMeasures"
+        class="d-flex flex-column flex-gap-2 p-3">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{
+              "history.latest.title" | translate
+              }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <heart-patient-nutrition-card [measures]="nutritionItems[0]">
+            </heart-patient-nutrition-card>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card>
+          <mat-card-content>
+            <div *ngIf="!loadingNutrition">
+              <hcp-nutrition-barchart [nutritionItems]="nutritionItems" [colorScheme]="colorScheme">
+              </hcp-nutrition-barchart>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</ng-container>
+
+<ng-template #noMeasures>
+  <div class="m-3">
+    <heart-message-box class="p-3" [type]="'info'"
+      [msg]="'health-history.no-data'"></heart-message-box>
+  </div>
+</ng-template>

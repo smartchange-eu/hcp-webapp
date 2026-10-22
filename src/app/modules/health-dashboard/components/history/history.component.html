@@ -1,0 +1,182 @@
+<mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+<ng-container *ngIf="!loading">
+  <mat-tab-group class="fit-page">
+    <mat-tab [label]="historyCategory | translate">
+      <ng-container *ngIf="!loading1; else spinner">
+        <div *ngIf="keys.length > 0 else noMeasuers" class="d-flex flex-column flex-gap-2 p-3">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ "history.latest.title" | translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <heart-patient-measurements-card [measures]="getValuesArray(measMap)"
+                [codes]="cvs"></heart-patient-measurements-card>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content>
+              <div class="d-flex flex-column flex-gap-4" *ngFor="let key of keys; let last = last">
+                <heart-quantitative-linechart class="chart-container" [timeline]="false"
+                  [colorScheme]="colorScheme" [items]="measMap.get(key)!" [showLegend]="true"
+                  [lang]="lang" [title]="key" [dateFormat]="dateFormat"
+                  [birthDate]="patient?.birthDate" [monthPercentiles]="getCentilesForCode(key)"
+                  [showXAxisLabel]="false" [showYAxisLabel]="true" [unitAsYAxis]="true"
+                  [showNotes]="true"
+                  [percentilesTimespan]="centilesSpan"></heart-quantitative-linechart>
+                <mat-divider class="m-3" *ngIf="!last"></mat-divider>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-tab>
+    <mat-tab [label]="wearableCategory | translate">
+      <ng-container *ngIf="!loading2; else spinner">
+        <div *ngIf="wKeys.length > 0 else noMeasuers" class="d-flex flex-column flex-gap-2 p-3">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ "history.latest-average.title" | translate: {days: 15}
+                }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <heart-patient-measurements-card [measures]="getValuesArray(wMMap)" [average]="true"
+                [daysThreshold]="15" [codes]="wearableCvs"></heart-patient-measurements-card>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content>
+              <div class="d-flex flex-column flex-gap-4" *ngFor="let key of wKeys; let last = last">
+                <heart-quantitative-barchart class="chart-container" [items]="wMMap.get(key)!"
+                  [showXAxisLabel]="false" [showYAxisLabel]="true" [unitAsYAxis]="true"
+                  [title]="key" [showLegend]="false" [colorScheme]="colorScheme"
+                  [dateFormat]="dateFormat" [showDetails]="true"
+                  [hideAmended]="true"></heart-quantitative-barchart>
+                <mat-divider class="m-3" *ngIf="!last"></mat-divider>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-tab>
+    <mat-tab [label]="labCategory | translate">
+      <ng-container *ngIf="!loading3; else spinner">
+        <div *ngIf="lKeys.length > 0 else noMeasuers" class="d-flex flex-column flex-gap-2 p-3">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ "history.latest.title" | translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <heart-patient-measurements-card [measures]="getValuesArray(labMap)"
+                [codes]="labCvs"></heart-patient-measurements-card>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content>
+              <div class="d-flex flex-column flex-gap-4" *ngFor="let key of lKeys; let last = last">
+                <heart-quantitative-linechart class="chart-container" [timeline]="false"
+                  [colorScheme]="colorScheme" [items]="labMap.get(key)!" [showLegend]="true"
+                  [showXAxisLabel]="false" [showYAxisLabel]="true" [unitAsYAxis]="true"
+                  [lang]="lang" [title]="key"
+                  [dateFormat]="dateFormat"></heart-quantitative-linechart>
+                <mat-divider class="m-3" *ngIf="!last"></mat-divider>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-tab>
+    <mat-tab [label]="nutritionCategory | translate">
+      <ng-container *ngIf="!loadingNutrition; else spinner">
+        <div *ngIf=" nutritionItems.length > 0 else noMeasuers"
+          class="d-flex flex-column flex-gap-2 p-3">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ "history.latest.title" | translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <heart-patient-nutrition-card
+                [measures]="nutritionItems[0]"></heart-patient-nutrition-card>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content>
+              <div>
+                <hcp-nutrition-barchart [nutritionItems]="nutritionItems"
+                  [colorScheme]="colorScheme"></hcp-nutrition-barchart>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-tab>
+    <mat-tab [label]="'health.history.questionnaires' | translate">
+      <ng-container *ngIf="!loadingQ; else spinner">
+        <div *ngIf="questionnaires.length>0; else noMeasuers"
+          class="d-flex flex-column flex-gap-2 p-3">
+          <mat-card *ngFor="let response of questionnaires">
+            <mat-card-header>
+              <mat-card-title>{{ response.title|translate }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <heart-questionnaire-section [showHeader]="false" [firstLevelGroupFormat]="'none'"
+                [questionLastChar]="''" [questionnaireResponse]="response.response"
+                [readOnly]="true">
+              </heart-questionnaire-section>
+            </mat-card-content>
+            <mat-card-actions>{{
+              (response.response.date
+              |dfnsFormatDistanceToNow: {addSuffix:true}) }}</mat-card-actions>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-tab>
+    <mat-tab *ngIf="showSlofit" [label]="'SLOFIT'">
+      <ng-container *ngIf="!loadingSlofit; else spinner">
+        <div *ngIf="slofitMeasures.length > 0 else noMeasuers"
+          class="d-flex flex-column flex-gap-2 p-3">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ "SLOFIT" }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <heart-patient-measurements-card [measures]="slofitMeasures"
+                [codes]="slofitCvs"></heart-patient-measurements-card>
+            </mat-card-content>
+          </mat-card>
+          <mat-card>
+            <mat-card-content>
+              <div class="d-flex flex-column flex-gap-4"
+                *ngFor="let key of slofitKeys; let last = last">
+                <ng-container *ngIf="key.endsWith('8302-2') || key.endsWith('29463-7'); else bar">
+                  <heart-quantitative-linechart class="chart-container" [timeline]="false"
+                    [colorScheme]="colorScheme" [items]="slofitMap.get(key)!" [showLegend]="false"
+                    [lang]="lang" [title]="key" [dateFormat]="dateFormat" [showXAxisLabel]="false"
+                    [showYAxisLabel]="true" [unitAsYAxis]="true"></heart-quantitative-linechart>
+                </ng-container>
+                <ng-template #bar>
+                  <heart-quantitative-barchart class="chart-container" [items]="slofitMap.get(key)!"
+                    [showXAxisLabel]="false" [showYAxisLabel]="true" [unitAsYAxis]="true"
+                    [title]="key" [showLegend]="false" [colorScheme]="colorScheme"
+                    [dateFormat]="dateFormat"></heart-quantitative-barchart>
+                </ng-template>
+                <mat-divider class="m-3" *ngIf="!last"></mat-divider>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+
+</ng-container>
+<ng-template #noMeasuers>
+  <div class="m-3"> <heart-message-box class="p-3" [type]="'info'"
+      [msg]="'health-history.no-data'"></heart-message-box>
+  </div>
+</ng-template>
+
+<ng-template #spinner>
+  <div class="flex-align-center p-3">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

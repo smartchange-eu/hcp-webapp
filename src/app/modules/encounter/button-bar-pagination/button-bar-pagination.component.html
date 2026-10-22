@@ -1,0 +1,33 @@
+<div #pagination class="button-nav-bar-pagination">
+
+	<div
+    (click)="leftArrow()"
+    *ngIf="showScroll"
+    aria-hidden="true"
+		class="button-bar-pagination button-bar-pagination-before mat-elevation-z4 mat-ripple"
+    mat-ripple="">
+
+		<div class="button-bar-pagination-chevron"><mat-icon>chevron</mat-icon></div>
+
+	</div>
+
+	<div class="button-nav-bar-container">
+    <nav>
+      <div>
+		    <ng-content></ng-content>
+      </div>
+    </nav>
+	</div>
+
+	<div
+    (click)="rightArrow()"
+    *ngIf="showScroll"
+    aria-hidden="true"
+		class="button-bar-pagination button-bar-pagination-after mat-elevation-z4 mat-ripple"
+    mat-ripple="">
+
+		<div class="button-bar-pagination-chevron"><mat-icon>chevron</mat-icon></div>
+
+	</div>
+
+</div>

@@ -1,0 +1,9 @@
+@use "../../../../../assets/styles/variable.scss";
+
+.category-title {
+  text-align: center;
+  font-weight: 600;
+  font-size: large;
+  padding-top: 10px;
+  color: variable.$primary;
+}

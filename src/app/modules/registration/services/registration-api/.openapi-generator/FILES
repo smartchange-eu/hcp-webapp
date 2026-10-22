@@ -1,0 +1,16 @@
+.gitignore
+.openapi-generator-ignore
+README.md
+api.base.service.ts
+api.module.ts
+api/accountRequestController.service.ts
+api/api.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/accountRequestDTO.ts
+model/models.ts
+param.ts
+query.params.ts
+variables.ts

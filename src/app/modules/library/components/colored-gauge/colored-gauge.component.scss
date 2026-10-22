@@ -1,0 +1,60 @@
+.gauge-container {
+  position: relative;
+  width: 100%;
+}
+
+.gauge-bar {
+  display: flex;
+  width: 100%;
+  height: 15px; // adjust
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.gauge-segment {
+  height: 100%;
+}
+
+.gauge-indicator {
+  position: absolute;
+  top: -10px; // adjust to align visually
+  width: 0;
+  height: 0;
+
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 10px solid black;
+
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+
+.gauge-value {
+  position: absolute;
+  font-size: small;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.gauge-label {
+  text-align: end;
+  font-size: x-small;
+  transform: translateX(4px);
+}
+
+.gauge-label-bar {
+  display: flex;
+  width: 100%;
+  height: 20px; // adjust
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.gauge-value-bar {
+  display: flex;
+  width: 100%;
+  height: 30px; // adjust
+  border-radius: 7px;
+  position: relative;
+}

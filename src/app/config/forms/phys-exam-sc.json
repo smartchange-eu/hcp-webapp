@@ -1,0 +1,120 @@
+{
+  "sections": [
+    {
+      "label": {
+        "system": "http://loinc.org",
+        "code": "721491000000103"
+      },
+      "valuesToCollect": [
+        {
+          "min": 80,
+          "max": 200,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "8302-2"
+          },
+          "icon": "height",
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "cm",
+            "display": "cm"
+          }
+        },
+        {
+          "min": 5,
+          "max": 100,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "29463-7"
+          },
+          "icon": "monitor_weight",
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "kg",
+            "display": "kg"
+          }
+        },
+        {
+          "min": 10,
+          "max": 100,
+          "cvToCollect": {
+            "system": "http://snomed.info/sct",
+            "code": "276361009"
+          },
+          "icon": "straighten",
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "cm",
+            "display": "cm"
+          }
+        }
+      ]
+    },
+    {
+      "label": {
+        "system": "http://loinc.org",
+        "code": "35094-2"
+      },
+      "valuesToCollect": [
+        {
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "35094-2"
+          },
+          "components": [
+            {
+              "min": 40,
+              "max": 200,
+              "cvToCollect": {
+                "system": "http://loinc.org",
+                "code": "8480-6"
+              },
+              "unit": {
+                "system": "http://unitsofmeasure.org",
+                "code": "mm[Hg]",
+                "display": "mmHg"
+              }
+            },
+            {
+              "min": 40,
+              "max": 200,
+              "cvToCollect": {
+                "system": "http://loinc.org",
+                "code": "8462-4"
+              },
+              "unit": {
+                "system": "http://unitsofmeasure.org",
+                "code": "mm[Hg]",
+                "display": "mmHg"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": {
+        "system": "http://loinc.org",
+        "code": "56847-7"
+      },
+      "valuesToCollect": [
+        {
+          "min": 0,
+          "max": 60,
+          "cvToCollect": {
+            "system": "http://loinc.org",
+            "code": "39156-5"
+          },
+          "icon": "speed",
+          "tooltipKey": "save.to.visualize",
+          "readonly": true,
+          "unit": {
+            "system": "http://unitsofmeasure.org",
+            "code": "kg/m2",
+            "display": "kg/m2"
+          }
+        }
+      ]
+    }
+  ]
+}

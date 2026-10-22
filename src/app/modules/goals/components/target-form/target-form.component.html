@@ -1,0 +1,62 @@
+<div>
+  <div *ngIf="!editMode" class="d-flex flex-row">
+    <div class="flex-1 flex-content-center"><span>{{getNarrativeStringFromGoal(target)}}</span></div>
+    <div *ngIf="editable && !editMode">
+      <button mat-icon-button color="primary" (click)="editMode = !editMode" [matTooltip]="'goal-card.edit' | translate"><mat-icon>edit</mat-icon></button>
+    </div>
+  </div>
+  <div *ngIf="editMode" class="d-flex flex-column">
+    <div class="m-b-10">
+      <p> {{ getVariableName() | translate }}&nbsp;
+        <ng-container>{{'goal-card.mustbe' | translate}}</ng-container>&nbsp;
+      </p>
+    </div>
+    <div class="d-flex felx-row flex-wrap">
+      <ng-container *ngIf="isCategoryTarget; else ifNotCategoryTarget">
+        <mat-form-field>
+          <mat-label>{{'goal-card.target' | translate}}</mat-label>
+          <mat-select [(ngModel)]="valueString" (ngModelChange)="checkInput()">
+            <mat-option *ngFor="let item of categoryTargetValues | keyvalue" value="{{item.value}}">{{ ( 'goal.target.threshold.value.' + item.value) | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+      <ng-template #ifNotCategoryTarget>
+        <mat-form-field>
+          <mat-label>{{'goal-card.operator' | translate}}</mat-label>
+          <mat-select [(ngModel)]="operator" (ngModelChange)="checkInput()">
+            <mat-option value="<">{{'goal-card.lessThan' | translate}}</mat-option>
+            <mat-option value="<=">{{'goal-card.lessThanEqual' | translate}}</mat-option>
+            <mat-option value="BETWEEN">{{'goal-card.between' | translate}}</mat-option>
+            <mat-option value="==">{{'goal-card.equalTo' | translate}}</mat-option>
+            <mat-option value=">=">{{'goal-card.greaterThanEqual' | translate}}</mat-option>
+            <mat-option value=">">{{'goal-card.greaterThan' | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <ng-container *ngIf="operator !== 'BETWEEN'; else betweenBlock">
+          <mat-form-field>
+            <mat-label>{{'goal-card.value' | translate}}</mat-label>
+            <input type="number" matInput [(ngModel)]="value" (input)="checkInput()">
+          </mat-form-field>
+        </ng-container>
+        <ng-template #betweenBlock>
+          <mat-form-field>
+            <mat-label>{{'goal-card.min' | translate}}</mat-label>
+            <input type="number" matInput [(ngModel)]="valueMin" (input)="checkInput()">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{'goal-card.max' | translate}}</mat-label>
+            <input type="number" matInput [(ngModel)]="valueMax" (input)="checkInput()">
+          </mat-form-field>
+        </ng-template>
+        <span>{{ ( unit ?? '' ) | translate }}</span>
+      </ng-template>
+    </div>
+    <div>
+      <small *ngIf="isNotValidInput" style="color:red">{{'goal-card.please_insert_valid_value' | translate}}</small>
+    </div>
+    <div class="d-flex flex-row-reverse" *ngIf="editable && editMode">
+      <button mat-icon-button color="warn" (click)="openDiscardChangesDialog()" [matTooltip]="'goal-card.discard_changes' | translate"><mat-icon>undo</mat-icon></button>
+      <button [disabled]="isNotValidInput" mat-icon-button color="primary" (click)="save()" [matTooltip]="'goal-card.save' | translate"><mat-icon>save</mat-icon></button>
+    </div>
+  </div>
+</div>

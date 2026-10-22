@@ -1,0 +1,11 @@
+@use "../../../../../assets/styles/variable.scss";
+
+mat-panel-title {
+  color: variable.$primary !important;
+  font-weight: bolder;
+  font-size: large;
+}
+
+.goal-card {
+  min-height: 150px;
+}

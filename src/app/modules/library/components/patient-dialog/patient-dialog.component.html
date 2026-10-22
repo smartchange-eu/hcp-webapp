@@ -1,0 +1,8 @@
+<mat-dialog-content class="d-flex flex-column p-4">
+  <heart-patient-anagraphic-form [lang]="lang" [reqPseudonym]="false" [mandPseudonym]="false"
+    [patientToEdit]="patient" [reqEmail]="false" [mandEmail]="false" [genderValues]="genderValues"
+    [reqBirthDate]="false" [mandBirthDate]="false" [mandGender]="true" [reqBirthPlace]="false"
+    [reqName]="true" [reqSurname]="true" [mandName]="true" [mandSurname]="true"
+    [mandTaxCode]="false" [reqFamily]="false" [mandOrg]="false" [canOpen]="false"
+    (storeIt)="storeUser($event, false)" (closeForm)="onCancel()"></heart-patient-anagraphic-form>
+</mat-dialog-content>

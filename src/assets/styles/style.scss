@@ -1,0 +1,101 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use "variable";
+@use "app";
+@use "sidebar";
+@use "@angular/material" as mat;
+// PRIMER CSS
+@import "@primer/css/index.scss";
+
+// missing classes - OR AT LEAST I CANNOT FIND THEM
+.flex-gap-0 {
+  gap: 0;
+}
+
+.flex-gap-1 {
+  gap: 4px;
+}
+
+.flex-gap-2 {
+  gap: 8px;
+}
+
+.flex-gap-3 {
+  gap: 16px;
+}
+
+.flex-gap-4 {
+  gap: 24px;
+}
+
+.flex-gap-5 {
+  gap: 32px;
+}
+
+.flex-basis-5 {
+  flex-basis: 5%;
+}
+
+.flex-basis-10 {
+  flex-basis: 10%;
+}
+
+.flex-basis-20 {
+  flex-basis: 20%;
+}
+
+.flex-basis-25 {
+  flex-basis: 25%;
+}
+
+.flex-basis-50 {
+  flex-basis: 50%;
+}
+
+.flex-basis-75 {
+  flex-basis: 75%;
+}
+
+.flex-basis-100 {
+  flex-basis: 100%;
+}
+
+.compact {
+  @include mat.form-field-density(-5);
+  @include mat.select-density(-5);
+}
+
+.fit-page {
+  height: calc(100% - 64px);
+}
+
+.fit-dashboard {
+  height: calc(100% - 48px);
+}
+
+.col-6-gap-3 {
+  width: calc(50% - 8px);
+}
+
+.col-6-gap-2 {
+  width: calc(50% - 4px);
+}
+
+.col-6-gap-1 {
+  width: calc(50% - 2px);
+}
+
+@media screen and (max-width: 1300px) {
+
+  .col-6-gap-3 {
+    width: 100%;
+  }
+
+  .col-6-gap-2 {
+    width: 100%;
+  }
+
+  .col-6-gap-1 {
+    width: 100%;
+  }
+}

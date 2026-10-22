@@ -1,0 +1,40 @@
+<div class="p-2 d-flex flex-column flex-gap-3">
+  <mat-expansion-panel *ngIf="suggestion">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{"scores.mini-card.title"| translate }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <heart-scores-mini-card class="col-8" [card]="suggestion"></heart-scores-mini-card>
+  </mat-expansion-panel>
+  <mat-card class="col-12" *ngIf="plan">
+    <mat-card-header class="p-3">
+      <mat-card-title> {{ 'plan-dashboard.info.label' | translate }} </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <label> {{ 'plan-dashboard.focus' | translate }}: {{ focus | translate }} </label>
+    </mat-card-content>
+    <mat-card-footer class="p-3" *ngIf="plan.due">{{ 'plan-dashboard.due.label' | translate }}
+      {{plan.due | dfnsFormat: 'PPP'}}</mat-card-footer>
+  </mat-card>
+  <div class="d-flex flex-row flex-gap-2">
+    <button mat-raised-button color="primary" (click)="openPlanDefinitionDialog()">
+      <mat-icon class="m-r-10">volunteer_activism</mat-icon>
+      <span>{{ ((plan&&
+        !isDefault)?'plan-dashboard.open-plan.button':'plan-dashboard.new-plan.button') | translate
+        }}</span>
+    </button>
+  </div>
+  <mat-tab-group *ngIf="plan else noplan">
+    <mat-tab [label]="'plan-dashboard.goals.label' | translate">
+      <ng-template matTabContent>
+        <heart-goals [patient]="patient!" [practitioner]="practitioner!"
+          [plan]="plan!"></heart-goals>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<ng-template #noplan>
+  <!-- NO DATA MESSAGE -->
+  <heart-message-box [type]="'warning'" [msg]="'goals-dashboard.no-plan.msg'"></heart-message-box>
+</ng-template>
